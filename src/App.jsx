@@ -369,7 +369,7 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
 /* ==================================================================================
    DASHBOARD
    ================================================================================== */
-function Dashboard({ reservations, onNewReservation, C, devise }) {
+function Dashboard({ reservations, onNewReservation, C, devise, subscribed }) {
   const today = new Date(); const todayKey = toKey(today); const weekStart = startOfWeek(today);
   const monthKey = `${today.getFullYear()}-${pad(today.getMonth() + 1)}`;
   const inWeek = (k) => { const d = new Date(k + 'T00:00:00'); return d >= weekStart && d < addDays(weekStart, 7); };
@@ -399,17 +399,27 @@ function Dashboard({ reservations, onNewReservation, C, devise }) {
         </div>
         <button onClick={onNewReservation} style={{ display: 'flex', alignItems: 'center', gap: 8, background: ACCENTS.glacier, color: '#fff', border: 'none', borderRadius: 9, padding: '10px 18px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}><Plus size={16} /> Nouvelle réservation</button>
       </div>
-      <div className="kpi-grid-4">
-        <KpiCard C={C} label="Cours aujourd'hui" value={todayR.length} sub={`${hoursOf(todayR).toFixed(1)}h enseignées`} icon={CalendarIcon} accent={ACCENTS.blue} />
-        <KpiCard C={C} label="Cours cette semaine" value={weekR.length} sub={`${hoursOf(weekR).toFixed(1)}h enseignées`} icon={Clock} accent={ACCENTS.green} />
-        <KpiCard C={C} label="Revenus du mois" value={fmtEUR(revenueOf(monthR), devise)} sub={`${monthR.length} cours ce mois-ci`} icon={Euro} accent={ACCENTS.amber} />
-        <KpiCard C={C} label="Taux de remplissage" value={`${fillRate}%`} sub="cette semaine" icon={TrendingUp} accent={C.navy} />
-      </div>
-      <div className="kpi-grid-4">
-        <KpiCard C={C} label="Revenus du jour" value={fmtEUR(revenueOf(todayR), devise)} icon={Euro} accent={ACCENTS.green} />
-        <KpiCard C={C} label="Revenus de la saison" value={fmtEUR(revenueOf(seasonR), devise)} icon={Euro} accent={ACCENTS.blue} />
-        <KpiCard C={C} label="Total clients" value={uniqueClients} sub={`${newClientsThisMonth} nouveaux ce mois-ci`} icon={Users} accent={ACCENTS.amber} />
-        <KpiCard C={C} label="Heures — saison" value={`${hoursOf(seasonR).toFixed(0)}h`} icon={Clock} accent={C.navy} />
+      <div style={{ position: 'relative' }}>
+        {!subscribed && (
+          <div style={{ position: 'absolute', inset: 0, zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+            <div style={{ background: '#fff', border: `1px solid ${C.iceLine}`, borderRadius: 14, padding: '20px 26px', boxShadow: '0 12px 30px -10px rgba(0,0,0,0.2)', textAlign: 'center', maxWidth: 320 }}>
+              <div style={{ fontWeight: 700, color: C.navy, marginBottom: 6 }}>Abonne-toi pour débloquer tes statistiques</div>
+              <div style={{ fontSize: 13, color: C.inkSoft }}>Rends-toi dans Paramètres pour t'abonner (29€/mois).</div>
+            </div>
+          </div>
+        )}
+        <div className="kpi-grid-4" style={!subscribed ? { filter: 'blur(6px)', pointerEvents: 'none', userSelect: 'none' } : {}}>
+          <KpiCard C={C} label="Cours aujourd'hui" value={todayR.length} sub={`${hoursOf(todayR).toFixed(1)}h enseignées`} icon={CalendarIcon} accent={ACCENTS.blue} />
+          <KpiCard C={C} label="Cours cette semaine" value={weekR.length} sub={`${hoursOf(weekR).toFixed(1)}h enseignées`} icon={Clock} accent={ACCENTS.green} />
+          <KpiCard C={C} label="Revenus du mois" value={fmtEUR(revenueOf(monthR), devise)} sub={`${monthR.length} cours ce mois-ci`} icon={Euro} accent={ACCENTS.amber} />
+          <KpiCard C={C} label="Taux de remplissage" value={`${fillRate}%`} sub="cette semaine" icon={TrendingUp} accent={C.navy} />
+        </div>
+        <div className="kpi-grid-4" style={!subscribed ? { filter: 'blur(6px)', pointerEvents: 'none', userSelect: 'none', marginTop: 14 } : { marginTop: 14 }}>
+          <KpiCard C={C} label="Revenus du jour" value={fmtEUR(revenueOf(todayR), devise)} icon={Euro} accent={ACCENTS.green} />
+          <KpiCard C={C} label="Revenus de la saison" value={fmtEUR(revenueOf(seasonR), devise)} icon={Euro} accent={ACCENTS.blue} />
+          <KpiCard C={C} label="Total clients" value={uniqueClients} sub={`${newClientsThisMonth} nouveaux ce mois-ci`} icon={Users} accent={ACCENTS.amber} />
+          <KpiCard C={C} label="Heures — saison" value={`${hoursOf(seasonR).toFixed(0)}h`} icon={Clock} accent={C.navy} />
+        </div>
       </div>
       <div className="chart-grid">
         <div style={{ background: C.card, border: `1px solid ${C.iceLine}`, borderRadius: 14, padding: '20px 22px' }}>
@@ -1158,6 +1168,21 @@ export default function App() {
   const [authed, setAuthed] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [subscribed, setSubscribed] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('abonnement') === 'succes') {
+        try { await window.storage.set('skipro-abonnement-v1', 'actif'); } catch (e) {}
+        window.history.replaceState({}, '', window.location.pathname);
+      }
+      try {
+        const r = await window.storage.get('skipro-abonnement-v1');
+        setSubscribed(r.value === 'actif');
+      } catch (e) { setSubscribed(false); }
+    })();
+  }, [authed]);
   const [tab, setTab] = useState('dashboard');
 
   useEffect(() => {
@@ -1281,7 +1306,7 @@ export default function App() {
         {loading ? (
           <div style={{ color: C.inkSoft, fontSize: 14 }}>Chargement…</div>
         ) : tab === 'dashboard' ? (
-          <Dashboard reservations={reservations} onNewReservation={() => openNew()} C={C} devise={settings.devise} />
+          <Dashboard reservations={reservations} onNewReservation={() => openNew()} C={C} devise={settings.devise} subscribed={subscribed} />
         ) : tab === 'calendar' ? (
           <CalendarView reservations={reservations} onSlotClick={openNew} onEventClick={openEdit} C={C} />
         ) : tab === 'reservations' ? (
