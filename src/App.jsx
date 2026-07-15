@@ -65,6 +65,37 @@ const MODES_PAIEMENT = ['Non renseigné', 'Espèces', 'Carte bancaire', 'Viremen
 const LANGUES = ['Français', 'Anglais', 'Allemand', 'Espagnol', 'Italien', 'Portugais', 'Russe'];
 const JOURS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
 const ENGAGEMENTS = ['Heure', 'Demi-journée', 'Journée'];
+const UI_TRANSLATIONS = {
+  Français: {
+    dashboard: 'Tableau de bord', calendar: 'Calendrier', reservations: 'Réservations',
+    clients: 'Clients', paiements: 'Paiements & Factures', stats: 'Statistiques',
+    parametres: 'Paramètres', deconnexion: 'Déconnexion'
+  },
+  Anglais: {
+    dashboard: 'Dashboard', calendar: 'Calendar', reservations: 'Bookings',
+    clients: 'Clients', paiements: 'Payments & Invoices', stats: 'Statistics',
+    parametres: 'Settings', deconnexion: 'Log out'
+  },
+  Espagnol: {
+    dashboard: 'Panel', calendar: 'Calendario', reservations: 'Reservas',
+    clients: 'Clientes', paiements: 'Pagos y Facturas', stats: 'Estadísticas',
+    parametres: 'Ajustes', deconnexion: 'Cerrar sesión'
+  },
+  Italien: {
+    dashboard: 'Bacheca', calendar: 'Calendario', reservations: 'Prenotazioni',
+    clients: 'Clienti', paiements: 'Pagamenti e Fatture', stats: 'Statistiche',
+    parametres: 'Impostazioni', deconnexion: 'Disconnetti'
+  },
+  Portugais: {
+    dashboard: 'Painel', calendar: 'Calendário', reservations: 'Reservas',
+    clients: 'Clientes', paiements: 'Pagamentos e Faturas', stats: 'Estatísticas',
+    parametres: 'Configurações', deconnexion: 'Sair'
+  }
+};
+function tUI(key, langue) {
+  return (UI_TRANSLATIONS[langue] && UI_TRANSLATIONS[langue][key]) || UI_TRANSLATIONS['Français'][key] || key;
+}
+
 function getCreneaux(settings) {
   return {
     'Matin': [settings.matinDebut || '09:00', settings.matinFin || '12:30'],
@@ -1066,7 +1097,7 @@ function ParametresView({ settings, onSave, C, subscribed }) {
       {section('Préférences régionales', (
         <div className="form-grid-3">
           {field('Devise', <select style={inputStyle} value={form.devise} onChange={set('devise')}><option value="EUR">Euro (€)</option><option value="CHF">Franc suisse (CHF)</option><option value="USD">Dollar ($)</option></select>)}
-          {field('Langue', <select style={inputStyle} value={form.langue} onChange={set('langue')}><option>Français</option><option>English</option></select>)}
+          {field('Langue de l\'interface', <select style={inputStyle} value={form.langue} onChange={set('langue')}><option>Français</option><option>Anglais</option><option>Espagnol</option><option>Italien</option><option>Portugais</option></select>)}
           {field('Fuseau horaire', <select style={inputStyle} value={form.fuseauHoraire} onChange={set('fuseauHoraire')}><option value="Europe/Paris">Europe/Paris</option><option value="Europe/Zurich">Europe/Zurich</option></select>)}
         </div>
       ))}
@@ -1323,18 +1354,18 @@ export default function App() {
   const openEdit = (r) => setModal(r);
 
   const navItems = [
-    { id: 'dashboard', label: 'Tableau de bord', icon: LayoutDashboard },
-    { id: 'calendar', label: 'Calendrier', icon: CalendarIcon },
-    { id: 'reservations', label: 'Réservations', icon: Repeat },
-    { id: 'clients', label: 'Clients', icon: Users },
-    { id: 'paiements', label: 'Paiements & Factures', icon: FileText },
-    { id: 'stats', label: 'Statistiques', icon: BarChart3 },
+    { id: 'dashboard', label: tUI('dashboard', settings.langue), icon: LayoutDashboard },
+    { id: 'calendar', label: tUI('calendar', settings.langue), icon: CalendarIcon },
+    { id: 'reservations', label: tUI('reservations', settings.langue), icon: Repeat },
+    { id: 'clients', label: tUI('clients', settings.langue), icon: Users },
+    { id: 'paiements', label: tUI('paiements', settings.langue), icon: FileText },
+    { id: 'stats', label: tUI('stats', settings.langue), icon: BarChart3 },
   ];
 
   if (!authChecked) return null;
   if (!authed) return <AuthScreen onAuth={() => setAuthed(true)} />;
 
-  const allTabLabel = tab === 'parametres' ? 'Paramètres' : (navItems.find(n => n.id === tab)?.label || 'SkiPro');
+  const allTabLabel = tab === 'parametres' ? tUI('parametres', settings.langue) : (navItems.find(n => n.id === tab)?.label || 'SkiPro');
 
   return (
     <div className="app-root" style={{ background: C.snow, fontFamily: 'Inter, sans-serif', color: C.ink }}>
@@ -1393,10 +1424,10 @@ export default function App() {
           })}
         </nav>
         <button className="nav-btn" onClick={() => setTab('parametres')} style={{ marginTop: 'auto', borderRadius: 9, border: 'none', cursor: 'pointer', textAlign: 'left', background: tab === 'parametres' ? 'rgba(255,255,255,0.1)' : 'transparent', color: tab === 'parametres' ? '#fff' : 'rgba(255,255,255,0.68)' }}>
-          <SettingsIcon size={16} /> Paramètres
+          <SettingsIcon size={16} /> {tUI('parametres', settings.langue)}
         </button>
         <button className="nav-btn" onClick={() => supabase.auth.signOut()} style={{ borderRadius: 9, border: 'none', cursor: 'pointer', textAlign: 'left', background: 'transparent', color: 'rgba(255,255,255,0.5)' }}>
-          <LogOut size={16} /> Déconnexion
+          <LogOut size={16} /> {tUI('deconnexion', settings.langue)}
         </button>
       </aside>
 
