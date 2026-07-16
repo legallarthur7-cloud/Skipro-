@@ -82,7 +82,17 @@ const UI_TRANSLATIONS = {
     chartRevenue14d: "Évolution du chiffre d'affaires (14 jours)", chartDisciplineSplit: 'Répartition des disciplines',
     upcomingLessons: 'Prochains cours', noUpcomingLessons: 'Aucun cours à venir.',
     recentPayments: 'Derniers paiements reçus', noPaymentsRecorded: 'Aucun paiement enregistré.',
-    calendarTitle: 'Calendrier', viewDay: 'Jour', viewWeek: 'Semaine', viewMonth: 'Mois', today: "Aujourd'hui", lessonsCount: 'cours'
+    calendarTitle: 'Calendrier', viewDay: 'Jour', viewWeek: 'Semaine', viewMonth: 'Mois', today: "Aujourd'hui", lessonsCount: 'cours',
+    modalEditTitle: 'Modifier la réservation', highSeason: 'Haute saison', lowSeason: 'Basse saison',
+    engHeure: 'Heure', engDemiJournee: 'Demi-journée', engJournee: 'Journée',
+    crenMatin: 'Matin', crenApresMidi: 'Après-midi',
+    fPrenom: 'Prénom', fNom: 'Nom', fTelephone: 'Téléphone', fEmail: 'E-mail', fNationalite: 'Nationalité',
+    fLangueParlee: 'Langue parlée', fAge: 'Âge', fNiveau: 'Niveau', fDiscipline: 'Discipline',
+    fNbPersonnes: 'Nombre de personnes', fStation: 'Station', fPointRdv: 'Point de rendez-vous',
+    fDate: 'Date', fHeureDebut: 'Heure de début', fHeureFin: 'Heure de fin', fDuree: 'Durée', fPrix: 'Prix',
+    suggestedRate: 'Tarif suggéré', fStatut: 'Statut', fModePaiement: 'Mode de règlement',
+    fStatutPaiement: 'Statut du paiement', fNotes: 'Notes privées',
+    btnCancel: 'Annuler', btnSave: 'Enregistrer', btnCreateReservation: 'Créer la réservation', btnDelete: 'Supprimer'
   },
   Anglais: {
     dashboard: 'Dashboard', calendar: 'Calendar', reservations: 'Bookings',
@@ -100,7 +110,17 @@ const UI_TRANSLATIONS = {
     chartRevenue14d: 'Revenue trend (14 days)', chartDisciplineSplit: 'Discipline breakdown',
     upcomingLessons: 'Upcoming lessons', noUpcomingLessons: 'No upcoming lessons.',
     recentPayments: 'Recent payments', noPaymentsRecorded: 'No payments recorded.',
-    calendarTitle: 'Calendar', viewDay: 'Day', viewWeek: 'Week', viewMonth: 'Month', today: 'Today', lessonsCount: 'lessons'
+    calendarTitle: 'Calendar', viewDay: 'Day', viewWeek: 'Week', viewMonth: 'Month', today: 'Today', lessonsCount: 'lessons',
+    modalEditTitle: 'Edit booking', highSeason: 'High season', lowSeason: 'Low season',
+    engHeure: 'Hour', engDemiJournee: 'Half-day', engJournee: 'Full day',
+    crenMatin: 'Morning', crenApresMidi: 'Afternoon',
+    fPrenom: 'First name', fNom: 'Last name', fTelephone: 'Phone', fEmail: 'Email', fNationalite: 'Nationality',
+    fLangueParlee: 'Spoken language', fAge: 'Age', fNiveau: 'Level', fDiscipline: 'Discipline',
+    fNbPersonnes: 'Number of people', fStation: 'Resort', fPointRdv: 'Meeting point',
+    fDate: 'Date', fHeureDebut: 'Start time', fHeureFin: 'End time', fDuree: 'Duration', fPrix: 'Price',
+    suggestedRate: 'Suggested rate', fStatut: 'Status', fModePaiement: 'Payment method',
+    fStatutPaiement: 'Payment status', fNotes: 'Private notes',
+    btnCancel: 'Cancel', btnSave: 'Save', btnCreateReservation: 'Create booking', btnDelete: 'Delete'
   },
   Espagnol: {
     dashboard: 'Panel', calendar: 'Calendario', reservations: 'Reservas',
@@ -118,7 +138,17 @@ const UI_TRANSLATIONS = {
     chartRevenue14d: 'Evolución de ingresos (14 días)', chartDisciplineSplit: 'Reparto por disciplina',
     upcomingLessons: 'Próximas clases', noUpcomingLessons: 'No hay clases próximas.',
     recentPayments: 'Últimos pagos recibidos', noPaymentsRecorded: 'No hay pagos registrados.',
-    calendarTitle: 'Calendario', viewDay: 'Día', viewWeek: 'Semana', viewMonth: 'Mes', today: 'Hoy', lessonsCount: 'clases'
+    calendarTitle: 'Calendario', viewDay: 'Día', viewWeek: 'Semana', viewMonth: 'Mes', today: 'Hoy', lessonsCount: 'clases',
+    modalEditTitle: 'Editar reserva', highSeason: 'Temporada alta', lowSeason: 'Temporada baja',
+    engHeure: 'Hora', engDemiJournee: 'Media jornada', engJournee: 'Día completo',
+    crenMatin: 'Mañana', crenApresMidi: 'Tarde',
+    fPrenom: 'Nombre', fNom: 'Apellido', fTelephone: 'Teléfono', fEmail: 'Correo electrónico', fNationalite: 'Nacionalidad',
+    fLangueParlee: 'Idioma hablado', fAge: 'Edad', fNiveau: 'Nivel', fDiscipline: 'Disciplina',
+    fNbPersonnes: 'Número de personas', fStation: 'Estación', fPointRdv: 'Punto de encuentro',
+    fDate: 'Fecha', fHeureDebut: 'Hora de inicio', fHeureFin: 'Hora de fin', fDuree: 'Duración', fPrix: 'Precio',
+    suggestedRate: 'Tarifa sugerida', fStatut: 'Estado', fModePaiement: 'Método de pago',
+    fStatutPaiement: 'Estado del pago', fNotes: 'Notas privadas',
+    btnCancel: 'Cancelar', btnSave: 'Guardar', btnCreateReservation: 'Crear reserva', btnDelete: 'Eliminar'
   },
   Italien: {
     dashboard: 'Bacheca', calendar: 'Calendario', reservations: 'Prenotazioni',
@@ -136,7 +166,17 @@ const UI_TRANSLATIONS = {
     chartRevenue14d: 'Andamento entrate (14 giorni)', chartDisciplineSplit: 'Ripartizione discipline',
     upcomingLessons: 'Prossime lezioni', noUpcomingLessons: 'Nessuna lezione in programma.',
     recentPayments: 'Ultimi pagamenti ricevuti', noPaymentsRecorded: 'Nessun pagamento registrato.',
-    calendarTitle: 'Calendario', viewDay: 'Giorno', viewWeek: 'Settimana', viewMonth: 'Mese', today: 'Oggi', lessonsCount: 'lezioni'
+    calendarTitle: 'Calendario', viewDay: 'Giorno', viewWeek: 'Settimana', viewMonth: 'Mese', today: 'Oggi', lessonsCount: 'lezioni',
+    modalEditTitle: 'Modifica prenotazione', highSeason: 'Alta stagione', lowSeason: 'Bassa stagione',
+    engHeure: 'Ora', engDemiJournee: 'Mezza giornata', engJournee: 'Giornata intera',
+    crenMatin: 'Mattina', crenApresMidi: 'Pomeriggio',
+    fPrenom: 'Nome', fNom: 'Cognome', fTelephone: 'Telefono', fEmail: 'E-mail', fNationalite: 'Nazionalità',
+    fLangueParlee: 'Lingua parlata', fAge: 'Età', fNiveau: 'Livello', fDiscipline: 'Disciplina',
+    fNbPersonnes: 'Numero di persone', fStation: 'Stazione', fPointRdv: "Punto d'incontro",
+    fDate: 'Data', fHeureDebut: 'Ora di inizio', fHeureFin: 'Ora di fine', fDuree: 'Durata', fPrix: 'Prezzo',
+    suggestedRate: 'Tariffa consigliata', fStatut: 'Stato', fModePaiement: 'Metodo di pagamento',
+    fStatutPaiement: 'Stato del pagamento', fNotes: 'Note private',
+    btnCancel: 'Annulla', btnSave: 'Salva', btnCreateReservation: 'Crea prenotazione', btnDelete: 'Elimina'
   },
   Portugais: {
     dashboard: 'Painel', calendar: 'Calendário', reservations: 'Reservas',
@@ -154,7 +194,17 @@ const UI_TRANSLATIONS = {
     chartRevenue14d: 'Evolução da receita (14 dias)', chartDisciplineSplit: 'Distribuição por modalidade',
     upcomingLessons: 'Próximas aulas', noUpcomingLessons: 'Nenhuma aula agendada.',
     recentPayments: 'Últimos pagamentos recebidos', noPaymentsRecorded: 'Nenhum pagamento registrado.',
-    calendarTitle: 'Calendário', viewDay: 'Dia', viewWeek: 'Semana', viewMonth: 'Mês', today: 'Hoje', lessonsCount: 'aulas'
+    calendarTitle: 'Calendário', viewDay: 'Dia', viewWeek: 'Semana', viewMonth: 'Mês', today: 'Hoje', lessonsCount: 'aulas',
+    modalEditTitle: 'Editar reserva', highSeason: 'Época alta', lowSeason: 'Época baixa',
+    engHeure: 'Hora', engDemiJournee: 'Meio-dia', engJournee: 'Dia inteiro',
+    crenMatin: 'Manhã', crenApresMidi: 'Tarde',
+    fPrenom: 'Nome', fNom: 'Sobrenome', fTelephone: 'Telefone', fEmail: 'E-mail', fNationalite: 'Nacionalidade',
+    fLangueParlee: 'Idioma falado', fAge: 'Idade', fNiveau: 'Nível', fDiscipline: 'Modalidade',
+    fNbPersonnes: 'Número de pessoas', fStation: 'Estação', fPointRdv: 'Ponto de encontro',
+    fDate: 'Data', fHeureDebut: 'Hora de início', fHeureFin: 'Hora de término', fDuree: 'Duração', fPrix: 'Preço',
+    suggestedRate: 'Tarifa sugerida', fStatut: 'Estado', fModePaiement: 'Método de pagamento',
+    fStatutPaiement: 'Estado do pagamento', fNotes: 'Notas privadas',
+    btnCancel: 'Cancelar', btnSave: 'Salvar', btnCreateReservation: 'Criar reserva', btnDelete: 'Excluir'
   }
 };
 const LOCALE_MAP = { Français: 'fr-FR', Anglais: 'en-US', Espagnol: 'es-ES', Italien: 'it-IT', Portugais: 'pt-PT' };
@@ -385,11 +435,15 @@ function BlurGate({ subscribed, C, children }) {
    RESERVATION MODAL
    ================================================================================== */
 function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
+  const langue = settings.langue;
   const [form, setForm] = useState({ type: 'Heure', creneau: 'Matin', ...initial });
   const isEdit = !!initial.id;
   const duration = useMemo(() => { const d = timeToMinutes(form.heureFin) - timeToMinutes(form.heureDebut); return d > 0 ? minutesLabel(d) : '—'; }, [form.heureDebut, form.heureFin]);
   const set = (k) => (e) => setForm(f => ({ ...f, [k]: e.target.value }));
   const CRENEAUX = getCreneaux(settings);
+
+  const engagementLabel = (type) => type === 'Heure' ? tUI('engHeure', langue) : type === 'Demi-journée' ? tUI('engDemiJournee', langue) : tUI('engJournee', langue);
+  const creneauLabel = (cren) => cren === 'Matin' ? tUI('crenMatin', langue) : tUI('crenApresMidi', langue);
 
   const priceForType = useCallback((type, creneau, dateKey) => {
     const high = isHighSeason(dateKey, settings);
@@ -431,7 +485,7 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(10,18,27,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: 20 }} onClick={onClose}>
       <div style={{ background: C.snow, borderRadius: 18, width: '100%', maxWidth: 640, maxHeight: '88vh', overflowY: 'auto', boxShadow: '0 30px 80px -30px rgba(0,0,0,0.5)' }} onClick={e => e.stopPropagation()}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 24px', borderBottom: `1px solid ${C.iceLine}`, position: 'sticky', top: 0, background: C.snow, zIndex: 1 }}>
-          <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 17, color: C.navy }}>{isEdit ? 'Modifier la réservation' : 'Nouvelle réservation'}</div>
+          <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 17, color: C.navy }}>{isEdit ? tUI('modalEditTitle', langue) : tUI('newReservation', langue)}</div>
           <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: C.inkSoft }}><X size={20} /></button>
         </div>
         <div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 18 }}>
@@ -442,10 +496,10 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
                 border: `1px solid ${form.type === type ? ACCENTS.glacier : C.iceLine}`,
                 background: form.type === type ? ACCENTS.glacier + '18' : C.card,
                 color: form.type === type ? ACCENTS.glacierDeep : C.ink
-              }}>{type}</button>
+              }}>{engagementLabel(type)}</button>
             ))}
           </div>
-          <Pill color={high ? ACCENTS.red : ACCENTS.green}>{high ? 'Haute saison' : 'Basse saison'}</Pill>
+          <Pill color={high ? ACCENTS.red : ACCENTS.green}>{high ? tUI('highSeason', langue) : tUI('lowSeason', langue)}</Pill>
           {form.type === 'Demi-journée' && (
             <div style={{ display: 'flex', gap: 8 }}>
               {Object.keys(CRENEAUX).map(cren => (
@@ -454,42 +508,42 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
                   border: `1px solid ${form.creneau === cren ? ACCENTS.glacier : C.iceLine}`,
                   background: form.creneau === cren ? ACCENTS.glacier + '18' : C.card,
                   color: form.creneau === cren ? ACCENTS.glacierDeep : C.ink
-                }}>{cren} ({CRENEAUX[cren][0]}–{CRENEAUX[cren][1]})</button>
+                }}>{creneauLabel(cren)} ({CRENEAUX[cren][0]}–{CRENEAUX[cren][1]})</button>
               ))}
             </div>
           )}
           <div className="form-grid-2">
-            {field('Prénom', <input style={inputStyle} value={form.prenom} onChange={set('prenom')} />)}
-            {field('Nom', <input style={inputStyle} value={form.nom} onChange={set('nom')} />)}
-            {field('Téléphone', <input style={inputStyle} value={form.telephone} onChange={set('telephone')} />)}
-            {field('E-mail', <input style={inputStyle} value={form.email} onChange={set('email')} />)}
-            {field('Nationalité', <input style={inputStyle} value={form.nationalite} onChange={set('nationalite')} />)}
-            {field('Langue parlée', <select style={inputStyle} value={form.langue} onChange={set('langue')}>{LANGUES.map(l => <option key={l}>{l}</option>)}</select>)}
-            {field('Âge', <input type="number" style={inputStyle} value={form.age} onChange={set('age')} />)}
-            {field('Niveau', <select style={inputStyle} value={form.niveau} onChange={set('niveau')}>{NIVEAUX.map(n => <option key={n}>{n}</option>)}</select>)}
-            {field('Discipline', <select style={inputStyle} value={form.discipline} onChange={set('discipline')}>{DISCIPLINES.map(d => <option key={d}>{d}</option>)}</select>)}
-            {field('Nombre de personnes', <input type="number" min="1" style={inputStyle} value={form.nbPersonnes} onChange={set('nbPersonnes')} />)}
-            {field('Station', <select style={inputStyle} value={form.station} onChange={set('station')}>{Object.entries(STATIONS_BY_MASSIF).map(([massif, list]) => <optgroup key={massif} label={massif}>{list.map(s => <option key={s}>{s}</option>)}</optgroup>)}</select>)}
-            {field('Point de rendez-vous', <input style={inputStyle} value={form.pointRdv} onChange={set('pointRdv')} />)}
-            {field('Date', <input type="date" style={inputStyle} value={form.date} onChange={setDate} />)}
-            {field('Heure de début', <input type="time" disabled={form.type !== 'Heure'} style={form.type !== 'Heure' ? disabledStyle : inputStyle} value={form.heureDebut} onChange={set('heureDebut')} />)}
-            {field('Heure de fin', <input type="time" disabled={form.type !== 'Heure'} style={form.type !== 'Heure' ? disabledStyle : inputStyle} value={form.heureFin} onChange={set('heureFin')} />)}
-            {field('Durée', <div style={{ ...inputStyle, background: C.snowDim, color: C.inkSoft }}>{duration}</div>)}
-            {field('Prix (€)', <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            {field(tUI('fPrenom', langue), <input style={inputStyle} value={form.prenom} onChange={set('prenom')} />)}
+            {field(tUI('fNom', langue), <input style={inputStyle} value={form.nom} onChange={set('nom')} />)}
+            {field(tUI('fTelephone', langue), <input style={inputStyle} value={form.telephone} onChange={set('telephone')} />)}
+            {field(tUI('fEmail', langue), <input style={inputStyle} value={form.email} onChange={set('email')} />)}
+            {field(tUI('fNationalite', langue), <input style={inputStyle} value={form.nationalite} onChange={set('nationalite')} />)}
+            {field(tUI('fLangueParlee', langue), <select style={inputStyle} value={form.langue} onChange={set('langue')}>{LANGUES.map(l => <option key={l}>{l}</option>)}</select>)}
+            {field(tUI('fAge', langue), <input type="number" style={inputStyle} value={form.age} onChange={set('age')} />)}
+            {field(tUI('fNiveau', langue), <select style={inputStyle} value={form.niveau} onChange={set('niveau')}>{NIVEAUX.map(n => <option key={n}>{n}</option>)}</select>)}
+            {field(tUI('fDiscipline', langue), <select style={inputStyle} value={form.discipline} onChange={set('discipline')}>{DISCIPLINES.map(d => <option key={d}>{d}</option>)}</select>)}
+            {field(tUI('fNbPersonnes', langue), <input type="number" min="1" style={inputStyle} value={form.nbPersonnes} onChange={set('nbPersonnes')} />)}
+            {field(tUI('fStation', langue), <select style={inputStyle} value={form.station} onChange={set('station')}>{Object.entries(STATIONS_BY_MASSIF).map(([massif, list]) => <optgroup key={massif} label={massif}>{list.map(s => <option key={s}>{s}</option>)}</optgroup>)}</select>)}
+            {field(tUI('fPointRdv', langue), <input style={inputStyle} value={form.pointRdv} onChange={set('pointRdv')} />)}
+            {field(tUI('fDate', langue), <input type="date" style={inputStyle} value={form.date} onChange={setDate} />)}
+            {field(tUI('fHeureDebut', langue), <input type="time" disabled={form.type !== 'Heure'} style={form.type !== 'Heure' ? disabledStyle : inputStyle} value={form.heureDebut} onChange={set('heureDebut')} />)}
+            {field(tUI('fHeureFin', langue), <input type="time" disabled={form.type !== 'Heure'} style={form.type !== 'Heure' ? disabledStyle : inputStyle} value={form.heureFin} onChange={set('heureFin')} />)}
+            {field(tUI('fDuree', langue), <div style={{ ...inputStyle, background: C.snowDim, color: C.inkSoft }}>{duration}</div>)}
+            {field(`${tUI('fPrix', langue)} (${settings.devise === 'USD' ? '$' : settings.devise === 'GBP' ? '£' : '€'})`, <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
               <input type="number" style={inputStyle} value={form.prix} onChange={set('prix')} />
-              {hourlyHint && <span style={{ fontSize: 11.5, color: C.inkSoft }}>Tarif suggéré : {hourlyHint} {settings.devise || '€'}/h ({high ? 'haute' : 'basse'} saison)</span>}
+              {hourlyHint && <span style={{ fontSize: 11.5, color: C.inkSoft }}>{tUI('suggestedRate', langue)} : {hourlyHint} {settings.devise || '€'}/h ({high ? tUI('highSeason', langue) : tUI('lowSeason', langue)})</span>}
             </div>)}
-            {field('Statut', <select style={inputStyle} value={form.statut} onChange={set('statut')}>{STATUTS.map(s => <option key={s}>{s}</option>)}</select>)}
-            {field('Mode de règlement', <select style={inputStyle} value={form.modePaiement || 'Non renseigné'} onChange={e => { const modePaiement = e.target.value; setForm(f => ({ ...f, modePaiement, paiement: modePaiement === 'Non renseigné' ? 'Non payé' : 'Payé' })); }}>{MODES_PAIEMENT.map(s => <option key={s}>{s}</option>)}</select>)}
-            {field('Statut du paiement', <div style={{ ...inputStyle, background: C.snowDim, color: form.paiement === 'Payé' ? ACCENTS.green : C.inkSoft, fontWeight: 600 }}>{form.paiement}</div>)}
+            {field(tUI('fStatut', langue), <select style={inputStyle} value={form.statut} onChange={set('statut')}>{STATUTS.map(s => <option key={s}>{s}</option>)}</select>)}
+            {field(tUI('fModePaiement', langue), <select style={inputStyle} value={form.modePaiement || 'Non renseigné'} onChange={e => { const modePaiement = e.target.value; setForm(f => ({ ...f, modePaiement, paiement: modePaiement === 'Non renseigné' ? 'Non payé' : 'Payé' })); }}>{MODES_PAIEMENT.map(s => <option key={s}>{s}</option>)}</select>)}
+            {field(tUI('fStatutPaiement', langue), <div style={{ ...inputStyle, background: C.snowDim, color: form.paiement === 'Payé' ? ACCENTS.green : C.inkSoft, fontWeight: 600 }}>{form.paiement}</div>)}
           </div>
-          {field('Notes privées', <textarea style={{ ...inputStyle, minHeight: 70, resize: 'vertical' }} value={form.notes} onChange={set('notes')} />)}
+          {field(tUI('fNotes', langue), <textarea style={{ ...inputStyle, minHeight: 70, resize: 'vertical' }} value={form.notes} onChange={set('notes')} />)}
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '16px 24px', borderTop: `1px solid ${C.iceLine}` }}>
-          <div>{isEdit && <button onClick={() => onDelete(form.id)} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: 'none', color: ACCENTS.red, cursor: 'pointer', fontSize: 14, fontWeight: 600 }}><Trash2 size={15} /> Supprimer</button>}</div>
+          <div>{isEdit && <button onClick={() => onDelete(form.id)} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: 'none', color: ACCENTS.red, cursor: 'pointer', fontSize: 14, fontWeight: 600 }}><Trash2 size={15} /> {tUI('btnDelete', langue)}</button>}</div>
           <div style={{ display: 'flex', gap: 10 }}>
-            <button onClick={onClose} style={{ padding: '9px 18px', borderRadius: 9, border: `1px solid ${C.iceLine}`, background: C.card, color: C.ink, cursor: 'pointer', fontSize: 14, fontWeight: 600 }}>Annuler</button>
-            <button onClick={() => onSave(form)} style={{ padding: '9px 18px', borderRadius: 9, border: 'none', background: ACCENTS.glacier, color: '#fff', cursor: 'pointer', fontSize: 14, fontWeight: 600 }}>{isEdit ? 'Enregistrer' : 'Créer la réservation'}</button>
+            <button onClick={onClose} style={{ padding: '9px 18px', borderRadius: 9, border: `1px solid ${C.iceLine}`, background: C.card, color: C.ink, cursor: 'pointer', fontSize: 14, fontWeight: 600 }}>{tUI('btnCancel', langue)}</button>
+            <button onClick={() => onSave(form)} style={{ padding: '9px 18px', borderRadius: 9, border: 'none', background: ACCENTS.glacier, color: '#fff', cursor: 'pointer', fontSize: 14, fontWeight: 600 }}>{isEdit ? tUI('btnSave', langue) : tUI('btnCreateReservation', langue)}</button>
           </div>
         </div>
       </div>
