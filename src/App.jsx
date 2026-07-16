@@ -450,6 +450,14 @@ const DAYS_SHORT_MAP = {
   Italien: ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'],
   Portugais: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom']
 };
+function fmtHeure(hhmm, langue) {
+  if (langue !== 'Anglais' || !hhmm || !hhmm.includes(':')) return hhmm;
+  const [hStr, mStr] = hhmm.split(':');
+  let h = parseInt(hStr, 10);
+  const period = h >= 12 ? 'PM' : 'AM';
+  h = h % 12; if (h === 0) h = 12;
+  return `${h}:${mStr} ${period}`;
+}
 function tUI(key, langue) {
   return (UI_TRANSLATIONS[langue] && UI_TRANSLATIONS[langue][key]) || UI_TRANSLATIONS['Français'][key] || key;
 }
@@ -743,7 +751,7 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
                   border: `1px solid ${form.creneau === cren ? ACCENTS.glacier : C.iceLine}`,
                   background: form.creneau === cren ? ACCENTS.glacier + '18' : C.card,
                   color: form.creneau === cren ? ACCENTS.glacierDeep : C.ink
-                }}>{creneauLabel(cren)} ({CRENEAUX[cren][0]}–{CRENEAUX[cren][1]})</button>
+                }}>{creneauLabel(cren)} ({fmtHeure(CRENEAUX[cren][0], langue)}–{fmtHeure(CRENEAUX[cren][1], langue)})</button>
               ))}
             </div>
           )}
@@ -876,7 +884,7 @@ function Dashboard({ reservations, onNewReservation, C, devise, subscribed, lang
             {upcoming.length === 0 && <div style={{ fontSize: 13.5, color: C.inkSoft }}>{tt('noUpcomingLessons')}</div>}
             {upcoming.map(r => (
               <div key={r.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 10, borderBottom: `1px dashed ${C.iceLine}` }}>
-                <div><div style={{ fontSize: 13.5, fontWeight: 600, color: C.ink }}>{r.prenom} {r.nom}</div><div style={{ fontSize: 12.5, color: C.inkSoft }}>{fmtDateShort(r.date)} · {r.heureDebut} · {r.station}</div></div>
+                <div><div style={{ fontSize: 13.5, fontWeight: 600, color: C.ink }}>{r.prenom} {r.nom}</div><div style={{ fontSize: 12.5, color: C.inkSoft }}>{fmtDateShort(r.date)} · {fmtHeure(r.heureDebut, langue)} · {r.station}</div></div>
                 <Pill color={disciplineColor(r.discipline)}>{r.discipline}</Pill>
               </div>
             ))}
@@ -950,7 +958,7 @@ function CalendarView({ reservations, onSlotClick, onEventClick, C, subscribed, 
           return (
             <div key={ev.id} onClick={(e) => { e.stopPropagation(); onEventClick(ev); }} style={{ position: 'absolute', top, height, left: 4, right: 4, background: C.card, borderLeft: `3px solid ${disciplineColor(ev.discipline)}`, borderRadius: 6, padding: '4px 7px', boxShadow: '0 2px 8px -3px rgba(0,0,0,0.25)', cursor: 'pointer', overflow: 'hidden', zIndex: 2 }}>
               <div style={{ fontSize: 11.5, fontWeight: 700, color: C.navy, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{ev.prenom} {ev.nom}</div>
-              <div style={{ fontSize: 10.5, color: C.inkSoft }}>{ev.heureDebut}–{ev.heureFin}</div>
+              <div style={{ fontSize: 10.5, color: C.inkSoft }}>{fmtHeure(ev.heureDebut, langue)}–{fmtHeure(ev.heureFin, langue)}</div>
             </div>
           );
         })}
@@ -988,7 +996,7 @@ function CalendarView({ reservations, onSlotClick, onEventClick, C, subscribed, 
               ))}
             </div>
             <div style={{ display: 'flex' }}>
-              <div style={{ width: 52, flexShrink: 0 }}>{hours.map(h => <div key={h} style={{ height: ROW_HEIGHT, fontSize: 11, color: C.inkSoft, textAlign: 'right', paddingRight: 8, position: 'relative', top: -6 }}>{pad(h)}:00</div>)}</div>
+              <div style={{ width: 52, flexShrink: 0 }}>{hours.map(h => <div key={h} style={{ height: ROW_HEIGHT, fontSize: 11, color: C.inkSoft, textAlign: 'right', paddingRight: 8, position: 'relative', top: -6 }}>{fmtHeure(`${pad(h)}:00`, langue)}</div>)}</div>
               {(view === 'week' ? weekDays : [anchor]).map(renderDayColumn)}
             </div>
           </div>
@@ -1023,7 +1031,7 @@ function ReservationsView({ reservations, onNew, onEdit, C, devise, langue }) {
           <tbody>
             {filtered.map(r => (
               <tr key={r.id} style={{ cursor: 'pointer' }} onClick={() => onEdit(r)}>
-                <td style={td}>{r.prenom} {r.nom}</td><td style={td}>{fmtDateShort(r.date)}</td><td style={td}>{r.heureDebut}–{r.heureFin}</td>
+                <td style={td}>{r.prenom} {r.nom}</td><td style={td}>{fmtDateShort(r.date)}</td><td style={td}>{fmtHeure(r.heureDebut, langue)}–{fmtHeure(r.heureFin, langue)}</td>
                 <td style={td}><div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}><Pill color={disciplineColor(r.discipline)}>{r.discipline}</Pill>{r.type && r.type !== 'Heure' && <Pill color={ACCENTS.amber}>{r.type}</Pill>}</div></td><td style={td}>{r.station}</td>
                 <td style={{ ...td, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif" }}>{fmtEUR(r.prix, devise)}</td>
                 <td style={td}><Pill color={statutColor(r.statut)}>{r.statut}</Pill></td>
@@ -1089,7 +1097,7 @@ function ClientModal({ client, onClose, C, devise, langue }) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {history.map(r => (
                 <div key={r.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 12px', border: `1px solid ${C.iceLine}`, borderRadius: 9 }}>
-                  <div><div style={{ fontSize: 13, fontWeight: 600, color: C.ink }}>{fmtDateShort(r.date)} · {r.heureDebut}–{r.heureFin}</div><div style={{ fontSize: 12, color: C.inkSoft }}>{r.station} · {r.niveau}</div></div>
+                  <div><div style={{ fontSize: 13, fontWeight: 600, color: C.ink }}>{fmtDateShort(r.date)} · {fmtHeure(r.heureDebut, langue)}–{fmtHeure(r.heureFin, langue)}</div><div style={{ fontSize: 12, color: C.inkSoft }}>{r.station} · {r.niveau}</div></div>
                   <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}><Pill color={disciplineColor(r.discipline)}>{r.discipline}</Pill><span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 13.5, color: C.ink }}>{fmtEUR(r.prix, devise)}</span></div>
                 </div>
               ))}
@@ -1144,6 +1152,7 @@ function ClientsView({ reservations, C, devise, subscribed, langue }) {
    PAIEMENTS
    ================================================================================== */
 function InvoiceModal({ reservation, onClose, C, devise, settings }) {
+  const langue = settings.langue;
   const invoiceNumber = `${String(reservation.id).slice(-6)}${new Date(reservation.date).getFullYear()}`;
   const todayStr = new Date().toLocaleDateString('fr-FR');
   const hasBank = settings.iban || settings.bic || settings.banque;
@@ -1167,7 +1176,7 @@ function InvoiceModal({ reservation, onClose, C, devise, settings }) {
         </div>
 
         <div style={{ fontSize: 13.5, marginBottom: 10 }}>
-          Cours de {reservation.discipline.toLowerCase()} à {reservation.station || ''} — {fmtDateShort(reservation.date)} ({reservation.heureDebut}–{reservation.heureFin})
+          Cours de {reservation.discipline.toLowerCase()} à {reservation.station || ''} — {fmtDateShort(reservation.date)} ({fmtHeure(reservation.heureDebut, langue)}–{fmtHeure(reservation.heureFin, langue)})
         </div>
 
         <div style={{ textAlign: 'center', marginTop: 18, marginBottom: 6 }}>
