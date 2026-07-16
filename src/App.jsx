@@ -95,7 +95,13 @@ const UI_TRANSLATIONS = {
     btnCancel: 'Annuler', btnSave: 'Enregistrer', btnCreateReservation: 'Créer la réservation', btnDelete: 'Supprimer',
     totalReservations: 'réservations au total', searchClientStation: 'Rechercher un client, une station...',
     filterAll: 'Tous', thHoraire: 'Horaire', thPaiement: 'Paiement', thClient: 'Client',
-    noResults: 'Aucune réservation ne correspond à votre recherche.'
+    noResults: 'Aucune réservation ne correspond à votre recherche.',
+    lessonsFollowed: 'Cours suivis', totalHours: 'Heures totales', totalSpent: 'Dépense totale',
+    preferredDiscipline: 'Discipline préférée', lessonHistory: 'Historique des cours',
+    documents: 'Documents', noDocuments: 'Aucun document pour ce client.',
+    clientsInCrm: 'clients dans votre CRM', searchClient: 'Rechercher un client...',
+    miniLessons: 'Cours', miniHours: 'Heures', miniSpent: 'Dépensé',
+    noClientsMatch: 'Aucun client ne correspond à votre recherche.'
   },
   Anglais: {
     dashboard: 'Dashboard', calendar: 'Calendar', reservations: 'Bookings',
@@ -126,7 +132,13 @@ const UI_TRANSLATIONS = {
     btnCancel: 'Cancel', btnSave: 'Save', btnCreateReservation: 'Create booking', btnDelete: 'Delete',
     totalReservations: 'bookings total', searchClientStation: 'Search a client, a resort...',
     filterAll: 'All', thHoraire: 'Time', thPaiement: 'Payment', thClient: 'Client',
-    noResults: 'No booking matches your search.'
+    noResults: 'No booking matches your search.',
+    lessonsFollowed: 'Lessons taken', totalHours: 'Total hours', totalSpent: 'Total spent',
+    preferredDiscipline: 'Preferred discipline', lessonHistory: 'Lesson history',
+    documents: 'Documents', noDocuments: 'No documents for this client.',
+    clientsInCrm: 'clients in your CRM', searchClient: 'Search a client...',
+    miniLessons: 'Lessons', miniHours: 'Hours', miniSpent: 'Spent',
+    noClientsMatch: 'No client matches your search.'
   },
   Espagnol: {
     dashboard: 'Panel', calendar: 'Calendario', reservations: 'Reservas',
@@ -157,7 +169,13 @@ const UI_TRANSLATIONS = {
     btnCancel: 'Cancelar', btnSave: 'Guardar', btnCreateReservation: 'Crear reserva', btnDelete: 'Eliminar',
     totalReservations: 'reservas en total', searchClientStation: 'Buscar un cliente, una estación...',
     filterAll: 'Todos', thHoraire: 'Horario', thPaiement: 'Pago', thClient: 'Cliente',
-    noResults: 'Ninguna reserva coincide con tu búsqueda.'
+    noResults: 'Ninguna reserva coincide con tu búsqueda.',
+    lessonsFollowed: 'Clases realizadas', totalHours: 'Horas totales', totalSpent: 'Gasto total',
+    preferredDiscipline: 'Disciplina preferida', lessonHistory: 'Historial de clases',
+    documents: 'Documentos', noDocuments: 'Ningún documento para este cliente.',
+    clientsInCrm: 'clientes en tu CRM', searchClient: 'Buscar un cliente...',
+    miniLessons: 'Clases', miniHours: 'Horas', miniSpent: 'Gastado',
+    noClientsMatch: 'Ningún cliente coincide con tu búsqueda.'
   },
   Italien: {
     dashboard: 'Bacheca', calendar: 'Calendario', reservations: 'Prenotazioni',
@@ -188,7 +206,13 @@ const UI_TRANSLATIONS = {
     btnCancel: 'Annulla', btnSave: 'Salva', btnCreateReservation: 'Crea prenotazione', btnDelete: 'Elimina',
     totalReservations: 'prenotazioni totali', searchClientStation: 'Cerca un cliente, una stazione...',
     filterAll: 'Tutti', thHoraire: 'Orario', thPaiement: 'Pagamento', thClient: 'Cliente',
-    noResults: 'Nessuna prenotazione corrisponde alla tua ricerca.'
+    noResults: 'Nessuna prenotazione corrisponde alla tua ricerca.',
+    lessonsFollowed: 'Lezioni seguite', totalHours: 'Ore totali', totalSpent: 'Spesa totale',
+    preferredDiscipline: 'Disciplina preferita', lessonHistory: 'Storico lezioni',
+    documents: 'Documenti', noDocuments: 'Nessun documento per questo cliente.',
+    clientsInCrm: 'clienti nel tuo CRM', searchClient: 'Cerca un cliente...',
+    miniLessons: 'Lezioni', miniHours: 'Ore', miniSpent: 'Speso',
+    noClientsMatch: 'Nessun cliente corrisponde alla tua ricerca.'
   },
   Portugais: {
     dashboard: 'Painel', calendar: 'Calendário', reservations: 'Reservas',
@@ -219,7 +243,13 @@ const UI_TRANSLATIONS = {
     btnCancel: 'Cancelar', btnSave: 'Salvar', btnCreateReservation: 'Criar reserva', btnDelete: 'Excluir',
     totalReservations: 'reservas no total', searchClientStation: 'Buscar um cliente, uma estação...',
     filterAll: 'Todos', thHoraire: 'Horário', thPaiement: 'Pagamento',
-    thClient: 'Cliente', noResults: 'Nenhuma reserva corresponde à sua busca.'
+    thClient: 'Cliente', noResults: 'Nenhuma reserva corresponde à sua busca.',
+    lessonsFollowed: 'Aulas realizadas', totalHours: 'Horas totais', totalSpent: 'Total gasto',
+    preferredDiscipline: 'Modalidade preferida', lessonHistory: 'Histórico de aulas',
+    documents: 'Documentos', noDocuments: 'Nenhum documento para este cliente.',
+    clientsInCrm: 'clientes no seu CRM', searchClient: 'Buscar um cliente...',
+    miniLessons: 'Aulas', miniHours: 'Horas', miniSpent: 'Gasto',
+    noClientsMatch: 'Nenhum cliente corresponde à sua busca.'
   }
 };
 const LOCALE_MAP = { Français: 'fr-FR', Anglais: 'en-US', Espagnol: 'es-ES', Italien: 'it-IT', Portugais: 'pt-PT' };
@@ -838,7 +868,7 @@ function aggregateClients(reservations) {
   }).sort((a, b) => b.totalDepense - a.totalDepense);
 }
 
-function ClientModal({ client, onClose, C, devise }) {
+function ClientModal({ client, onClose, C, devise, langue }) {
   const history = [...client.reservations].sort((a, b) => b.date.localeCompare(a.date));
   return (
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(10,18,27,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: 20 }} onClick={onClose}>
@@ -849,23 +879,23 @@ function ClientModal({ client, onClose, C, devise }) {
         </div>
         <div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 20 }}>
           <div className="kpi-grid-3">
-            <KpiCard C={C} label="Cours suivis" value={client.nbCours} icon={Repeat} accent={ACCENTS.blue} />
-            <KpiCard C={C} label="Heures totales" value={`${client.totalHeures.toFixed(1)}h`} icon={TrendingUp} accent={ACCENTS.green} />
-            <KpiCard C={C} label="Dépense totale" value={fmtEUR(client.totalDepense, devise)} icon={Euro} accent={ACCENTS.amber} />
+            <KpiCard C={C} label={tUI('lessonsFollowed', langue)} value={client.nbCours} icon={Repeat} accent={ACCENTS.blue} />
+            <KpiCard C={C} label={tUI('totalHours', langue)} value={`${client.totalHeures.toFixed(1)}h`} icon={TrendingUp} accent={ACCENTS.green} />
+            <KpiCard C={C} label={tUI('totalSpent', langue)} value={fmtEUR(client.totalDepense, devise)} icon={Euro} accent={ACCENTS.amber} />
           </div>
           <div className="form-grid-2" style={{ fontSize: 13.5, color: C.ink }}>
-            <div><span style={{ color: C.inkSoft }}>Nationalité :</span> {client.nationalite || '—'}</div>
-            <div><span style={{ color: C.inkSoft }}>Langue :</span> {client.langue || '—'}</div>
-            <div><span style={{ color: C.inkSoft }}>Niveau :</span> {client.niveau}</div>
-            <div><span style={{ color: C.inkSoft }}>Discipline préférée :</span> {client.preference}</div>
+            <div><span style={{ color: C.inkSoft }}>{tUI('fNationalite', langue)} :</span> {client.nationalite || '—'}</div>
+            <div><span style={{ color: C.inkSoft }}>{tUI('fLangueParlee', langue)} :</span> {client.langue || '—'}</div>
+            <div><span style={{ color: C.inkSoft }}>{tUI('fNiveau', langue)} :</span> {client.niveau}</div>
+            <div><span style={{ color: C.inkSoft }}>{tUI('preferredDiscipline', langue)} :</span> {client.preference}</div>
           </div>
           {client.notes.length > 0 && (
-            <div><div style={{ fontSize: 13, fontWeight: 700, color: C.navy, marginBottom: 8 }}>Notes privées</div>
+            <div><div style={{ fontSize: 13, fontWeight: 700, color: C.navy, marginBottom: 8 }}>{tUI('fNotes', langue)}</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>{client.notes.map((n, i) => <div key={i} style={{ fontSize: 13, color: C.inkSoft, background: C.snowDim, borderRadius: 8, padding: '8px 10px' }}>{n}</div>)}</div>
             </div>
           )}
           <div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: C.navy, marginBottom: 8 }}>Historique des cours</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: C.navy, marginBottom: 8 }}>{tUI('lessonHistory', langue)}</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {history.map(r => (
                 <div key={r.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 12px', border: `1px solid ${C.iceLine}`, borderRadius: 9 }}>
@@ -876,8 +906,8 @@ function ClientModal({ client, onClose, C, devise }) {
             </div>
           </div>
           <div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: C.navy, marginBottom: 8 }}>Documents</div>
-            <div style={{ fontSize: 13, color: C.inkSoft, background: C.snowDim, borderRadius: 9, padding: '14px', textAlign: 'center' }}>Aucun document pour ce client.</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: C.navy, marginBottom: 8 }}>{tUI('documents', langue)}</div>
+            <div style={{ fontSize: 13, color: C.inkSoft, background: C.snowDim, borderRadius: 9, padding: '14px', textAlign: 'center' }}>{tUI('noDocuments', langue)}</div>
           </div>
         </div>
       </div>
@@ -885,17 +915,17 @@ function ClientModal({ client, onClose, C, devise }) {
   );
 }
 
-function ClientsView({ reservations, C, devise, subscribed }) {
+function ClientsView({ reservations, C, devise, subscribed, langue }) {
   const [search, setSearch] = useState(''); const [selected, setSelected] = useState(null);
   const clients = useMemo(() => aggregateClients(reservations), [reservations]);
   const filtered = clients.filter(c => (c.prenom + c.nom).toLowerCase().includes(search.toLowerCase()));
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-      <div><h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 24, fontWeight: 700, color: C.navy }}>Clients</h1><p style={{ fontSize: 14, color: C.inkSoft, marginTop: 4 }}>{clients.length} clients dans votre CRM</p></div>
+      <div><h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 24, fontWeight: 700, color: C.navy }}>{tUI('clients', langue)}</h1><p style={{ fontSize: 14, color: C.inkSoft, marginTop: 4 }}>{clients.length} {tUI('clientsInCrm', langue)}</p></div>
       <BlurGate subscribed={subscribed} C={C}>
       <div style={{ position: 'relative', maxWidth: 360 }}>
         <Search size={15} style={{ position: 'absolute', left: 12, top: 11, color: C.inkSoft }} />
-        <input placeholder="Rechercher un client..." value={search} onChange={e => setSearch(e.target.value)} style={{ width: '100%', border: `1px solid ${C.iceLine}`, borderRadius: 9, padding: '9px 14px 9px 34px', fontSize: 14, background: C.card, color: C.ink }} />
+        <input placeholder={tUI('searchClient', langue)} value={search} onChange={e => setSearch(e.target.value)} style={{ width: '100%', border: `1px solid ${C.iceLine}`, borderRadius: 9, padding: '9px 14px 9px 34px', fontSize: 14, background: C.card, color: C.ink }} />
       </div>
       <div className="clients-grid">
         {filtered.map(c => (
@@ -906,16 +936,16 @@ function ClientsView({ reservations, C, devise, subscribed }) {
             </div>
             <div style={{ fontSize: 12.5, color: C.inkSoft, marginTop: 4 }}>{c.nationalite} · {c.niveau}</div>
             <div style={{ display: 'flex', gap: 16, marginTop: 14 }}>
-              <div><div style={{ fontSize: 11.5, color: C.inkSoft }}>Cours</div><div style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 16, color: C.ink }}>{c.nbCours}</div></div>
-              <div><div style={{ fontSize: 11.5, color: C.inkSoft }}>Heures</div><div style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 16, color: C.ink }}>{c.totalHeures.toFixed(1)}h</div></div>
-              <div><div style={{ fontSize: 11.5, color: C.inkSoft }}>Dépensé</div><div style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 16, color: ACCENTS.green }}>{fmtEUR(c.totalDepense, devise)}</div></div>
+              <div><div style={{ fontSize: 11.5, color: C.inkSoft }}>{tUI('miniLessons', langue)}</div><div style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 16, color: C.ink }}>{c.nbCours}</div></div>
+              <div><div style={{ fontSize: 11.5, color: C.inkSoft }}>{tUI('miniHours', langue)}</div><div style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 16, color: C.ink }}>{c.totalHeures.toFixed(1)}h</div></div>
+              <div><div style={{ fontSize: 11.5, color: C.inkSoft }}>{tUI('miniSpent', langue)}</div><div style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 16, color: ACCENTS.green }}>{fmtEUR(c.totalDepense, devise)}</div></div>
             </div>
           </div>
         ))}
-        {filtered.length === 0 && <div style={{ color: C.inkSoft, fontSize: 14 }}>Aucun client ne correspond à votre recherche.</div>}
+        {filtered.length === 0 && <div style={{ color: C.inkSoft, fontSize: 14 }}>{tUI('noClientsMatch', langue)}</div>}
       </div>
       </BlurGate>
-      {selected && <ClientModal client={selected} onClose={() => setSelected(null)} C={C} devise={devise} />}
+      {selected && <ClientModal client={selected} onClose={() => setSelected(null)} C={C} devise={devise} langue={langue} />}
     </div>
   );
 }
@@ -1587,7 +1617,7 @@ export default function App() {
         ) : tab === 'reservations' ? (
           <ReservationsView reservations={reservations} onNew={() => openNew()} onEdit={openEdit} C={C} devise={settings.devise} langue={settings.langue} />
         ) : tab === 'clients' ? (
-          <ClientsView reservations={reservations} C={C} devise={settings.devise} subscribed={subscribed} />
+          <ClientsView reservations={reservations} C={C} devise={settings.devise} subscribed={subscribed} langue={settings.langue} />
         ) : tab === 'paiements' ? (
           <PaiementsView reservations={reservations} onUpdate={handleUpdate} onDelete={handleDelete} C={C} devise={settings.devise} settings={settings} subscribed={subscribed} />
         ) : tab === 'stats' ? (
