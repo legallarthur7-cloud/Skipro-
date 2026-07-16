@@ -111,7 +111,24 @@ const UI_TRANSLATIONS = {
     statsSubtitle: "Vue d'ensemble de votre activité", kpiHoursTaught: 'Heures enseignées',
     kpiLessonsGiven: 'Cours réalisés', kpiAvgRevenueHour: 'Revenu moyen / heure', kpiAvgRevenueClient: 'Revenu moyen / client',
     kpiCancelRate: "Taux d'annulation", kpiRetentionRate: 'Taux de fidélisation', retentionSub: 'clients avec 2+ cours',
-    kpiTotalRevenue: 'Revenu total', chartNationalities: 'Nationalités des clients', chartTopResorts: 'Stations les plus fréquentées'
+    kpiTotalRevenue: 'Revenu total', chartNationalities: 'Nationalités des clients', chartTopResorts: 'Stations les plus fréquentées',
+    settingsSubtitle: 'Personnalisez votre compte et vos tarifs', sectionSubscription: 'Abonnement',
+    subscriptionDesc: 'Toutes les fonctionnalités incluses. Résiliable à tout moment.', loadingWait: 'Un instant...',
+    btnSubscribe: "S'abonner", activeSubscription: 'Abonnement actif', sectionCoordonnees: 'Coordonnées',
+    labelNomAffiche: 'Nom affiché', labelSiret: 'Numéro SIRET', labelAdressePostale: 'Adresse postale',
+    sectionBanque: 'Coordonnées bancaires (pour vos factures)', labelNomBanque: 'Nom de la banque',
+    sectionRegional: 'Préférences régionales', labelDevise: 'Devise', labelLangueInterface: "Langue de l'interface",
+    labelFuseau: 'Fuseau horaire', sectionSaisons: 'Périodes de saison', btnVacancesAuto: 'Vacances scolaires (auto)',
+    btnPeriodeManuelle: 'Période manuelle', labelZoneAcademique: 'Zone académique de référence',
+    optToutesZones: 'Toutes les zones (recommandé pour une clientèle nationale)',
+    seasonExplainAuto: "La haute saison correspond automatiquement aux vacances de Noël, d'Hiver et de Printemps (dates officielles Éducation nationale 2025-2026 et 2026-2027). Toutes les zones prend la période la plus large, utile si vos clients viennent de toute la France.",
+    seasonExplainManual: 'Toute date hors de cette période est considérée en basse saison.',
+    labelDebutHauteSaison: 'Début haute saison (MM-JJ)', labelFinHauteSaison: 'Fin haute saison (MM-JJ)',
+    sectionTarifsHoraires: 'Tarifs horaires', sectionTarifsForfait: 'Tarifs forfaitaires',
+    sectionHorairesDemi: 'Horaires des demi-journées', labelDebut: 'début', labelFin: 'fin',
+    sectionJoursRepos: 'Jours de repos', sectionApparence: 'Apparence', btnClair: 'Clair', btnSombre: 'Sombre',
+    sectionNotifications: 'Notifications', notifEmailLabel: 'Recevoir les confirmations par e-mail',
+    notifSmsLabel: 'Recevoir les rappels par SMS', settingsSaved: 'Paramètres enregistrés ✓'
   },
   Anglais: {
     dashboard: 'Dashboard', calendar: 'Calendar', reservations: 'Bookings',
@@ -158,7 +175,24 @@ const UI_TRANSLATIONS = {
     statsSubtitle: 'Overview of your activity', kpiHoursTaught: 'Hours taught',
     kpiLessonsGiven: 'Lessons given', kpiAvgRevenueHour: 'Average revenue / hour', kpiAvgRevenueClient: 'Average revenue / client',
     kpiCancelRate: 'Cancellation rate', kpiRetentionRate: 'Retention rate', retentionSub: 'clients with 2+ lessons',
-    kpiTotalRevenue: 'Total revenue', chartNationalities: 'Client nationalities', chartTopResorts: 'Most visited resorts'
+    kpiTotalRevenue: 'Total revenue', chartNationalities: 'Client nationalities', chartTopResorts: 'Most visited resorts',
+    settingsSubtitle: 'Customize your account and rates', sectionSubscription: 'Subscription',
+    subscriptionDesc: 'All features included. Cancel anytime.', loadingWait: 'One moment...',
+    btnSubscribe: 'Subscribe', activeSubscription: 'Active subscription', sectionCoordonnees: 'Contact details',
+    labelNomAffiche: 'Display name', labelSiret: 'SIRET number', labelAdressePostale: 'Postal address',
+    sectionBanque: 'Bank details (for your invoices)', labelNomBanque: 'Bank name',
+    sectionRegional: 'Regional preferences', labelDevise: 'Currency', labelLangueInterface: 'Interface language',
+    labelFuseau: 'Time zone', sectionSaisons: 'Season periods', btnVacancesAuto: 'School holidays (auto)',
+    btnPeriodeManuelle: 'Manual period', labelZoneAcademique: 'Reference academic zone',
+    optToutesZones: 'All zones (recommended for a national clientele)',
+    seasonExplainAuto: 'High season automatically follows the Christmas, Winter and Spring school holidays (official French National Education dates 2025-2026 and 2026-2027). "All zones" takes the widest period, useful if your clients come from all over France.',
+    seasonExplainManual: 'Any date outside this period is considered low season.',
+    labelDebutHauteSaison: 'High season start (MM-DD)', labelFinHauteSaison: 'High season end (MM-DD)',
+    sectionTarifsHoraires: 'Hourly rates', sectionTarifsForfait: 'Package rates',
+    sectionHorairesDemi: 'Half-day schedules', labelDebut: 'start', labelFin: 'end',
+    sectionJoursRepos: 'Days off', sectionApparence: 'Appearance', btnClair: 'Light', btnSombre: 'Dark',
+    sectionNotifications: 'Notifications', notifEmailLabel: 'Receive confirmations by email',
+    notifSmsLabel: 'Receive reminders by SMS', settingsSaved: 'Settings saved ✓'
   },
   Espagnol: {
     dashboard: 'Panel', calendar: 'Calendario', reservations: 'Reservas',
@@ -205,7 +239,24 @@ const UI_TRANSLATIONS = {
     statsSubtitle: 'Resumen de tu actividad', kpiHoursTaught: 'Horas impartidas',
     kpiLessonsGiven: 'Clases realizadas', kpiAvgRevenueHour: 'Ingreso medio / hora', kpiAvgRevenueClient: 'Ingreso medio / cliente',
     kpiCancelRate: 'Tasa de cancelación', kpiRetentionRate: 'Tasa de fidelización', retentionSub: 'clientes con 2+ clases',
-    kpiTotalRevenue: 'Ingreso total', chartNationalities: 'Nacionalidades de los clientes', chartTopResorts: 'Estaciones más frecuentadas'
+    kpiTotalRevenue: 'Ingreso total', chartNationalities: 'Nacionalidades de los clientes', chartTopResorts: 'Estaciones más frecuentadas',
+    settingsSubtitle: 'Personaliza tu cuenta y tarifas', sectionSubscription: 'Suscripción',
+    subscriptionDesc: 'Todas las funciones incluidas. Cancela cuando quieras.', loadingWait: 'Un momento...',
+    btnSubscribe: 'Suscribirse', activeSubscription: 'Suscripción activa', sectionCoordonnees: 'Datos de contacto',
+    labelNomAffiche: 'Nombre mostrado', labelSiret: 'Número SIRET', labelAdressePostale: 'Dirección postal',
+    sectionBanque: 'Datos bancarios (para tus facturas)', labelNomBanque: 'Nombre del banco',
+    sectionRegional: 'Preferencias regionales', labelDevise: 'Moneda', labelLangueInterface: 'Idioma de la interfaz',
+    labelFuseau: 'Zona horaria', sectionSaisons: 'Períodos de temporada', btnVacancesAuto: 'Vacaciones escolares (auto)',
+    btnPeriodeManuelle: 'Período manual', labelZoneAcademique: 'Zona académica de referencia',
+    optToutesZones: 'Todas las zonas (recomendado para clientela nacional)',
+    seasonExplainAuto: 'La temporada alta sigue automáticamente las vacaciones escolares de Navidad, Invierno y Primavera (fechas oficiales de Educación Nacional francesa 2025-2026 y 2026-2027). "Todas las zonas" toma el período más amplio, útil si tus clientes vienen de toda Francia.',
+    seasonExplainManual: 'Cualquier fecha fuera de este período se considera temporada baja.',
+    labelDebutHauteSaison: 'Inicio temporada alta (MM-DD)', labelFinHauteSaison: 'Fin temporada alta (MM-DD)',
+    sectionTarifsHoraires: 'Tarifas por hora', sectionTarifsForfait: 'Tarifas de paquete',
+    sectionHorairesDemi: 'Horarios de media jornada', labelDebut: 'inicio', labelFin: 'fin',
+    sectionJoursRepos: 'Días de descanso', sectionApparence: 'Apariencia', btnClair: 'Claro', btnSombre: 'Oscuro',
+    sectionNotifications: 'Notificaciones', notifEmailLabel: 'Recibir confirmaciones por correo electrónico',
+    notifSmsLabel: 'Recibir recordatorios por SMS', settingsSaved: 'Ajustes guardados ✓'
   },
   Italien: {
     dashboard: 'Bacheca', calendar: 'Calendario', reservations: 'Prenotazioni',
@@ -252,7 +303,24 @@ const UI_TRANSLATIONS = {
     statsSubtitle: 'Panoramica della tua attività', kpiHoursTaught: 'Ore insegnate',
     kpiLessonsGiven: 'Lezioni svolte', kpiAvgRevenueHour: 'Ricavo medio / ora', kpiAvgRevenueClient: 'Ricavo medio / cliente',
     kpiCancelRate: 'Tasso di cancellazione', kpiRetentionRate: 'Tasso di fidelizzazione', retentionSub: 'clienti con 2+ lezioni',
-    kpiTotalRevenue: 'Ricavo totale', chartNationalities: 'Nazionalità dei clienti', chartTopResorts: 'Stazioni più frequentate'
+    kpiTotalRevenue: 'Ricavo totale', chartNationalities: 'Nazionalità dei clienti', chartTopResorts: 'Stazioni più frequentate',
+    settingsSubtitle: 'Personalizza il tuo account e le tariffe', sectionSubscription: 'Abbonamento',
+    subscriptionDesc: 'Tutte le funzionalità incluse. Annullabile in qualsiasi momento.', loadingWait: 'Un momento...',
+    btnSubscribe: 'Abbonati', activeSubscription: 'Abbonamento attivo', sectionCoordonnees: 'Dati di contatto',
+    labelNomAffiche: 'Nome visualizzato', labelSiret: 'Numero SIRET', labelAdressePostale: 'Indirizzo postale',
+    sectionBanque: 'Dati bancari (per le tue fatture)', labelNomBanque: 'Nome della banca',
+    sectionRegional: 'Preferenze regionali', labelDevise: 'Valuta', labelLangueInterface: "Lingua dell'interfaccia",
+    labelFuseau: 'Fuso orario', sectionSaisons: 'Periodi stagionali', btnVacancesAuto: 'Vacanze scolastiche (auto)',
+    btnPeriodeManuelle: 'Periodo manuale', labelZoneAcademique: 'Zona accademica di riferimento',
+    optToutesZones: 'Tutte le zone (consigliato per una clientela nazionale)',
+    seasonExplainAuto: "L'alta stagione segue automaticamente le vacanze scolastiche di Natale, Inverno e Primavera (date ufficiali dell'Istruzione Nazionale francese 2025-2026 e 2026-2027). \"Tutte le zone\" prende il periodo più ampio, utile se i tuoi clienti vengono da tutta la Francia.",
+    seasonExplainManual: 'Qualsiasi data al di fuori di questo periodo è considerata bassa stagione.',
+    labelDebutHauteSaison: 'Inizio alta stagione (MM-GG)', labelFinHauteSaison: 'Fine alta stagione (MM-GG)',
+    sectionTarifsHoraires: 'Tariffe orarie', sectionTarifsForfait: 'Tariffe forfettarie',
+    sectionHorairesDemi: 'Orari mezza giornata', labelDebut: 'inizio', labelFin: 'fine',
+    sectionJoursRepos: 'Giorni di riposo', sectionApparence: 'Aspetto', btnClair: 'Chiaro', btnSombre: 'Scuro',
+    sectionNotifications: 'Notifiche', notifEmailLabel: 'Ricevi conferme via e-mail',
+    notifSmsLabel: 'Ricevi promemoria via SMS', settingsSaved: 'Impostazioni salvate ✓'
   },
   Portugais: {
     dashboard: 'Painel', calendar: 'Calendário', reservations: 'Reservas',
@@ -299,7 +367,24 @@ const UI_TRANSLATIONS = {
     statsSubtitle: 'Visão geral da sua atividade', kpiHoursTaught: 'Horas ministradas',
     kpiLessonsGiven: 'Aulas realizadas', kpiAvgRevenueHour: 'Receita média / hora', kpiAvgRevenueClient: 'Receita média / cliente',
     kpiCancelRate: 'Taxa de cancelamento', kpiRetentionRate: 'Taxa de fidelização', retentionSub: 'clientes com 2+ aulas',
-    kpiTotalRevenue: 'Receita total', chartNationalities: 'Nacionalidades dos clientes', chartTopResorts: 'Estações mais frequentadas'
+    kpiTotalRevenue: 'Receita total', chartNationalities: 'Nacionalidades dos clientes', chartTopResorts: 'Estações mais frequentadas',
+    settingsSubtitle: 'Personalize sua conta e tarifas', sectionSubscription: 'Assinatura',
+    subscriptionDesc: 'Todos os recursos incluídos. Cancele quando quiser.', loadingWait: 'Um momento...',
+    btnSubscribe: 'Assinar', activeSubscription: 'Assinatura ativa', sectionCoordonnees: 'Dados de contato',
+    labelNomAffiche: 'Nome exibido', labelSiret: 'Número SIRET', labelAdressePostale: 'Endereço postal',
+    sectionBanque: 'Dados bancários (para suas faturas)', labelNomBanque: 'Nome do banco',
+    sectionRegional: 'Preferências regionais', labelDevise: 'Moeda', labelLangueInterface: 'Idioma da interface',
+    labelFuseau: 'Fuso horário', sectionSaisons: 'Períodos de temporada', btnVacancesAuto: 'Férias escolares (auto)',
+    btnPeriodeManuelle: 'Período manual', labelZoneAcademique: 'Zona acadêmica de referência',
+    optToutesZones: 'Todas as zonas (recomendado para clientela nacional)',
+    seasonExplainAuto: 'A época alta segue automaticamente as férias escolares de Natal, Inverno e Primavera (datas oficiais da Educação Nacional francesa 2025-2026 e 2026-2027). "Todas as zonas" considera o período mais amplo, útil se seus clientes vêm de toda a França.',
+    seasonExplainManual: 'Qualquer data fora deste período é considerada época baixa.',
+    labelDebutHauteSaison: 'Início da época alta (MM-DD)', labelFinHauteSaison: 'Fim da época alta (MM-DD)',
+    sectionTarifsHoraires: 'Tarifas por hora', sectionTarifsForfait: 'Tarifas de pacote',
+    sectionHorairesDemi: 'Horários de meio período', labelDebut: 'início', labelFin: 'fim',
+    sectionJoursRepos: 'Dias de folga', sectionApparence: 'Aparência', btnClair: 'Claro', btnSombre: 'Escuro',
+    sectionNotifications: 'Notificações', notifEmailLabel: 'Receber confirmações por e-mail',
+    notifSmsLabel: 'Receber lembretes por SMS', settingsSaved: 'Configurações salvas ✓'
   }
 };
 const LOCALE_MAP = { Français: 'fr-FR', Anglais: 'en-US', Espagnol: 'es-ES', Italien: 'it-IT', Portugais: 'pt-PT' };
@@ -1238,6 +1323,7 @@ function StatsView({ reservations, C, devise, subscribed, langue }) {
    PARAMETRES
    ================================================================================== */
 function ParametresView({ settings, onSave, C, subscribed }) {
+  const langue = settings.langue;
   const [form, setForm] = useState(settings);
   const [saved, setSaved] = useState(false);
   const [subLoading, setSubLoading] = useState(false);
@@ -1272,124 +1358,124 @@ function ParametresView({ settings, onSave, C, subscribed }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 18, maxWidth: 780 }}>
       <div>
-        <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 24, fontWeight: 700, color: C.navy }}>Paramètres</h1>
-        <p style={{ fontSize: 14, color: C.inkSoft, marginTop: 4 }}>Personnalisez votre compte et vos tarifs</p>
+        <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 24, fontWeight: 700, color: C.navy }}>{tUI('parametres', langue)}</h1>
+        <p style={{ fontSize: 14, color: C.inkSoft, marginTop: 4 }}>{tUI('settingsSubtitle', langue)}</p>
       </div>
 
-      {section('Abonnement', (
+      {section(tUI('sectionSubscription', langue), (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 14 }}>
           <div>
             <div style={{ fontSize: 15, fontWeight: 700, color: C.navy }}>SkiPro — 29€/mois</div>
-            <div style={{ fontSize: 13, color: C.inkSoft, marginTop: 2 }}>Toutes les fonctionnalités incluses. Résiliable à tout moment.</div>
+            <div style={{ fontSize: 13, color: C.inkSoft, marginTop: 2 }}>{tUI('subscriptionDesc', langue)}</div>
           </div>
           {subscribed ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#E6F4EA', color: '#1E7A3D', borderRadius: 9, padding: '11px 18px', fontSize: 14, fontWeight: 600 }}>
-              ✓ Abonnement actif
+              ✓ {tUI('activeSubscription', langue)}
             </div>
           ) : (
             <button onClick={handleSubscribe} disabled={subLoading} style={{ background: '#2E6F8E', color: '#fff', border: 'none', borderRadius: 9, padding: '11px 22px', fontSize: 14, fontWeight: 600, cursor: subLoading ? 'default' : 'pointer', opacity: subLoading ? 0.7 : 1 }}>
-              {subLoading ? 'Un instant...' : "S'abonner"}
+              {subLoading ? tUI('loadingWait', langue) : tUI('btnSubscribe', langue)}
             </button>
           )}
         </div>
       ))}
 
       <BlurGate subscribed={subscribed} C={C}>
-      {section('Coordonnées', (
+      {section(tUI('sectionCoordonnees', langue), (
         <>
         <div className="form-grid-2">
-          {field('Nom affiché', <input style={inputStyle} value={form.nom} onChange={set('nom')} />)}
-          {field('E-mail', <input style={inputStyle} value={form.email} onChange={set('email')} />)}
-          {field('Téléphone', <input style={inputStyle} value={form.telephone || ''} onChange={set('telephone')} />)}
-          {field('Numéro SIRET', <input style={inputStyle} value={form.siret || ''} onChange={set('siret')} placeholder="XXX XXX XXX XXXXX" />)}
+          {field(tUI('labelNomAffiche', langue), <input style={inputStyle} value={form.nom} onChange={set('nom')} />)}
+          {field(tUI('fEmail', langue), <input style={inputStyle} value={form.email} onChange={set('email')} />)}
+          {field(tUI('fTelephone', langue), <input style={inputStyle} value={form.telephone || ''} onChange={set('telephone')} />)}
+          {field(tUI('labelSiret', langue), <input style={inputStyle} value={form.siret || ''} onChange={set('siret')} placeholder="XXX XXX XXX XXXXX" />)}
         </div>
         <div style={{ marginTop: 14 }}>
-          {field('Adresse postale', <input style={inputStyle} value={form.adresse || ''} onChange={set('adresse')} placeholder="Numéro, rue, code postal, ville" />)}
+          {field(tUI('labelAdressePostale', langue), <input style={inputStyle} value={form.adresse || ''} onChange={set('adresse')} placeholder="Numéro, rue, code postal, ville" />)}
         </div>
         </>
       ))}
 
-      {section('Coordonnées bancaires (pour vos factures)', (
+      {section(tUI('sectionBanque', langue), (
         <>
         <div className="form-grid-2">
           {field('IBAN', <input style={inputStyle} value={form.iban || ''} onChange={set('iban')} placeholder="FR76 XXXX XXXX XXXX XXXX XXXX XXX" />)}
           {field('BIC', <input style={inputStyle} value={form.bic || ''} onChange={set('bic')} placeholder="XXXXFRPPXXX" />)}
         </div>
         <div style={{ marginTop: 14 }}>
-          {field('Nom de la banque', <input style={inputStyle} value={form.banque || ''} onChange={set('banque')} placeholder="Ex: Caisse d'Épargne Rhône Alpes" />)}
+          {field(tUI('labelNomBanque', langue), <input style={inputStyle} value={form.banque || ''} onChange={set('banque')} placeholder="Ex: Caisse d'Épargne Rhône Alpes" />)}
         </div>
         </>
       ))}
 
-      {section('Préférences régionales', (
+      {section(tUI('sectionRegional', langue), (
         <div className="form-grid-3">
-          {field('Devise', <select style={inputStyle} value={form.devise} onChange={set('devise')}><option value="EUR">Euro (€)</option><option value="CHF">Franc suisse (CHF)</option><option value="USD">Dollar ($)</option></select>)}
-          {field('Langue de l\'interface', <select style={inputStyle} value={form.langue} onChange={set('langue')}><option>Français</option><option>Anglais</option><option>Espagnol</option><option>Italien</option><option>Portugais</option></select>)}
-          {field('Fuseau horaire', <select style={inputStyle} value={form.fuseauHoraire} onChange={set('fuseauHoraire')}><option value="Europe/Paris">Europe/Paris</option><option value="Europe/Zurich">Europe/Zurich</option></select>)}
+          {field(tUI('labelDevise', langue), <select style={inputStyle} value={form.devise} onChange={set('devise')}><option value="EUR">Euro (€)</option><option value="CHF">Franc suisse (CHF)</option><option value="USD">Dollar ($)</option></select>)}
+          {field(tUI('labelLangueInterface', langue), <select style={inputStyle} value={form.langue} onChange={set('langue')}><option>Français</option><option>Anglais</option><option>Espagnol</option><option>Italien</option><option>Portugais</option></select>)}
+          {field(tUI('labelFuseau', langue), <select style={inputStyle} value={form.fuseauHoraire} onChange={set('fuseauHoraire')}><option value="Europe/Paris">Europe/Paris</option><option value="Europe/Zurich">Europe/Zurich</option></select>)}
         </div>
       ))}
 
-      {section('Périodes de saison', (
+      {section(tUI('sectionSaisons', langue), (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div style={{ display: 'flex', gap: 8 }}>
-            <button type="button" onClick={() => setForm(f => ({ ...f, seasonMode: 'vacances' }))} style={{ flex: 1, padding: '9px 12px', borderRadius: 9, cursor: 'pointer', fontSize: 13.5, fontWeight: 600, border: `1px solid ${form.seasonMode === 'vacances' ? ACCENTS.glacier : C.iceLine}`, background: form.seasonMode === 'vacances' ? ACCENTS.glacier + '18' : C.card, color: form.seasonMode === 'vacances' ? ACCENTS.glacierDeep : C.ink }}>Vacances scolaires (auto)</button>
-            <button type="button" onClick={() => setForm(f => ({ ...f, seasonMode: 'manuel' }))} style={{ flex: 1, padding: '9px 12px', borderRadius: 9, cursor: 'pointer', fontSize: 13.5, fontWeight: 600, border: `1px solid ${form.seasonMode === 'manuel' ? ACCENTS.glacier : C.iceLine}`, background: form.seasonMode === 'manuel' ? ACCENTS.glacier + '18' : C.card, color: form.seasonMode === 'manuel' ? ACCENTS.glacierDeep : C.ink }}>Période manuelle</button>
+            <button type="button" onClick={() => setForm(f => ({ ...f, seasonMode: 'vacances' }))} style={{ flex: 1, padding: '9px 12px', borderRadius: 9, cursor: 'pointer', fontSize: 13.5, fontWeight: 600, border: `1px solid ${form.seasonMode === 'vacances' ? ACCENTS.glacier : C.iceLine}`, background: form.seasonMode === 'vacances' ? ACCENTS.glacier + '18' : C.card, color: form.seasonMode === 'vacances' ? ACCENTS.glacierDeep : C.ink }}>{tUI('btnVacancesAuto', langue)}</button>
+            <button type="button" onClick={() => setForm(f => ({ ...f, seasonMode: 'manuel' }))} style={{ flex: 1, padding: '9px 12px', borderRadius: 9, cursor: 'pointer', fontSize: 13.5, fontWeight: 600, border: `1px solid ${form.seasonMode === 'manuel' ? ACCENTS.glacier : C.iceLine}`, background: form.seasonMode === 'manuel' ? ACCENTS.glacier + '18' : C.card, color: form.seasonMode === 'manuel' ? ACCENTS.glacierDeep : C.ink }}>{tUI('btnPeriodeManuelle', langue)}</button>
           </div>
 
           {form.seasonMode === 'vacances' ? (
             <div>
-              {field('Zone académique de référence', (
+              {field(tUI('labelZoneAcademique', langue), (
                 <select style={inputStyle} value={form.zoneVacances} onChange={set('zoneVacances')}>
-                  <option value="Toutes">Toutes les zones (recommandé pour une clientèle nationale)</option>
+                  <option value="Toutes">{tUI('optToutesZones', langue)}</option>
                   <option value="A">Zone A</option>
                   <option value="B">Zone B</option>
                   <option value="C">Zone C</option>
                 </select>
               ))}
               <p style={{ fontSize: 12.5, color: C.inkSoft, marginTop: 10 }}>
-                La haute saison correspond automatiquement aux vacances de Noël, d'Hiver et de Printemps (dates officielles Éducation nationale 2025-2026 et 2026-2027). "Toutes les zones" prend la période la plus large, utile si vos clients viennent de toute la France.
+                {tUI('seasonExplainAuto', langue)}
               </p>
             </div>
           ) : (
             <div>
               <div className="form-grid-2">
-                {field('Début haute saison (MM-JJ)', <input style={inputStyle} placeholder="12-20" value={form.hauteSaisonDebut} onChange={set('hauteSaisonDebut')} />)}
-                {field('Fin haute saison (MM-JJ)', <input style={inputStyle} placeholder="02-28" value={form.hauteSaisonFin} onChange={set('hauteSaisonFin')} />)}
+                {field(tUI('labelDebutHauteSaison', langue), <input style={inputStyle} placeholder="12-20" value={form.hauteSaisonDebut} onChange={set('hauteSaisonDebut')} />)}
+                {field(tUI('labelFinHauteSaison', langue), <input style={inputStyle} placeholder="02-28" value={form.hauteSaisonFin} onChange={set('hauteSaisonFin')} />)}
               </div>
-              <p style={{ fontSize: 12.5, color: C.inkSoft, marginTop: 10 }}>Toute date hors de cette période est considérée en basse saison.</p>
+              <p style={{ fontSize: 12.5, color: C.inkSoft, marginTop: 10 }}>{tUI('seasonExplainManual', langue)}</p>
             </div>
           )}
         </div>
       ))}
 
-      {section('Tarifs horaires', (
+      {section(tUI('sectionTarifsHoraires', langue), (
         <div className="form-grid-2">
-          {field(`Ski — Haute saison (${form.devise}/h)`, <input type="number" style={inputStyle} value={form.tarifSkiHaute} onChange={set('tarifSkiHaute')} />)}
-          {field(`Ski — Basse saison (${form.devise}/h)`, <input type="number" style={inputStyle} value={form.tarifSkiBasse} onChange={set('tarifSkiBasse')} />)}
-          {field(`Snowboard — Haute saison (${form.devise}/h)`, <input type="number" style={inputStyle} value={form.tarifSnowboardHaute} onChange={set('tarifSnowboardHaute')} />)}
-          {field(`Snowboard — Basse saison (${form.devise}/h)`, <input type="number" style={inputStyle} value={form.tarifSnowboardBasse} onChange={set('tarifSnowboardBasse')} />)}
+          {field(`Ski — ${tUI('highSeason', langue)} (${form.devise}/h)`, <input type="number" style={inputStyle} value={form.tarifSkiHaute} onChange={set('tarifSkiHaute')} />)}
+          {field(`Ski — ${tUI('lowSeason', langue)} (${form.devise}/h)`, <input type="number" style={inputStyle} value={form.tarifSkiBasse} onChange={set('tarifSkiBasse')} />)}
+          {field(`Snowboard — ${tUI('highSeason', langue)} (${form.devise}/h)`, <input type="number" style={inputStyle} value={form.tarifSnowboardHaute} onChange={set('tarifSnowboardHaute')} />)}
+          {field(`Snowboard — ${tUI('lowSeason', langue)} (${form.devise}/h)`, <input type="number" style={inputStyle} value={form.tarifSnowboardBasse} onChange={set('tarifSnowboardBasse')} />)}
         </div>
       ))}
 
-      {section('Tarifs forfaitaires', (
+      {section(tUI('sectionTarifsForfait', langue), (
         <div className="form-grid-2">
-          {field(`Demi-journée — Haute saison (${form.devise})`, <input type="number" style={inputStyle} value={form.tarifDemiJourneeHaute} onChange={set('tarifDemiJourneeHaute')} />)}
-          {field(`Demi-journée — Basse saison (${form.devise})`, <input type="number" style={inputStyle} value={form.tarifDemiJourneeBasse} onChange={set('tarifDemiJourneeBasse')} />)}
-          {field(`Journée — Haute saison (${form.devise})`, <input type="number" style={inputStyle} value={form.tarifJourneeHaute} onChange={set('tarifJourneeHaute')} />)}
-          {field(`Journée — Basse saison (${form.devise})`, <input type="number" style={inputStyle} value={form.tarifJourneeBasse} onChange={set('tarifJourneeBasse')} />)}
+          {field(`${tUI('engDemiJournee', langue)} — ${tUI('highSeason', langue)} (${form.devise})`, <input type="number" style={inputStyle} value={form.tarifDemiJourneeHaute} onChange={set('tarifDemiJourneeHaute')} />)}
+          {field(`${tUI('engDemiJournee', langue)} — ${tUI('lowSeason', langue)} (${form.devise})`, <input type="number" style={inputStyle} value={form.tarifDemiJourneeBasse} onChange={set('tarifDemiJourneeBasse')} />)}
+          {field(`${tUI('engJournee', langue)} — ${tUI('highSeason', langue)} (${form.devise})`, <input type="number" style={inputStyle} value={form.tarifJourneeHaute} onChange={set('tarifJourneeHaute')} />)}
+          {field(`${tUI('engJournee', langue)} — ${tUI('lowSeason', langue)} (${form.devise})`, <input type="number" style={inputStyle} value={form.tarifJourneeBasse} onChange={set('tarifJourneeBasse')} />)}
         </div>
       ))}
 
-      {section('Horaires des demi-journées', (
+      {section(tUI('sectionHorairesDemi', langue), (
         <div className="form-grid-2">
-          {field('Matin — début', <input type="time" style={inputStyle} value={form.matinDebut || '09:00'} onChange={set('matinDebut')} />)}
-          {field('Matin — fin', <input type="time" style={inputStyle} value={form.matinFin || '12:30'} onChange={set('matinFin')} />)}
-          {field('Après-midi — début', <input type="time" style={inputStyle} value={form.apresMidiDebut || '13:30'} onChange={set('apresMidiDebut')} />)}
-          {field('Après-midi — fin', <input type="time" style={inputStyle} value={form.apresMidiFin || '17:00'} onChange={set('apresMidiFin')} />)}
+          {field(`${tUI('crenMatin', langue)} — ${tUI('labelDebut', langue)}`, <input type="time" style={inputStyle} value={form.matinDebut || '09:00'} onChange={set('matinDebut')} />)}
+          {field(`${tUI('crenMatin', langue)} — ${tUI('labelFin', langue)}`, <input type="time" style={inputStyle} value={form.matinFin || '12:30'} onChange={set('matinFin')} />)}
+          {field(`${tUI('crenApresMidi', langue)} — ${tUI('labelDebut', langue)}`, <input type="time" style={inputStyle} value={form.apresMidiDebut || '13:30'} onChange={set('apresMidiDebut')} />)}
+          {field(`${tUI('crenApresMidi', langue)} — ${tUI('labelFin', langue)}`, <input type="time" style={inputStyle} value={form.apresMidiFin || '17:00'} onChange={set('apresMidiFin')} />)}
         </div>
       ))}
 
-      {section('Jours de repos', (
+      {section(tUI('sectionJoursRepos', langue), (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
           {JOURS.map(j => (
             <button key={j} onClick={() => toggleJour(j)} style={{ padding: '7px 14px', borderRadius: 100, border: `1px solid ${form.joursRepos.includes(j) ? ACCENTS.glacier : C.iceLine}`, background: form.joursRepos.includes(j) ? ACCENTS.glacier + '18' : C.card, color: form.joursRepos.includes(j) ? ACCENTS.glacierDeep : C.ink, fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>{j}</button>
@@ -1397,23 +1483,23 @@ function ParametresView({ settings, onSave, C, subscribed }) {
         </div>
       ))}
 
-      {section('Apparence', (
+      {section(tUI('sectionApparence', langue), (
         <div style={{ display: 'flex', gap: 10 }}>
-          <button onClick={() => setForm(f => ({ ...f, theme: 'light' }))} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 16px', borderRadius: 9, border: `1px solid ${form.theme === 'light' ? ACCENTS.glacier : C.iceLine}`, background: form.theme === 'light' ? ACCENTS.glacier + '18' : C.card, color: C.ink, cursor: 'pointer', fontSize: 13.5, fontWeight: 600 }}><Sun size={15} /> Clair</button>
-          <button onClick={() => setForm(f => ({ ...f, theme: 'dark' }))} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 16px', borderRadius: 9, border: `1px solid ${form.theme === 'dark' ? ACCENTS.glacier : C.iceLine}`, background: form.theme === 'dark' ? ACCENTS.glacier + '18' : C.card, color: C.ink, cursor: 'pointer', fontSize: 13.5, fontWeight: 600 }}><Moon size={15} /> Sombre</button>
+          <button onClick={() => setForm(f => ({ ...f, theme: 'light' }))} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 16px', borderRadius: 9, border: `1px solid ${form.theme === 'light' ? ACCENTS.glacier : C.iceLine}`, background: form.theme === 'light' ? ACCENTS.glacier + '18' : C.card, color: C.ink, cursor: 'pointer', fontSize: 13.5, fontWeight: 600 }}><Sun size={15} /> {tUI('btnClair', langue)}</button>
+          <button onClick={() => setForm(f => ({ ...f, theme: 'dark' }))} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 16px', borderRadius: 9, border: `1px solid ${form.theme === 'dark' ? ACCENTS.glacier : C.iceLine}`, background: form.theme === 'dark' ? ACCENTS.glacier + '18' : C.card, color: C.ink, cursor: 'pointer', fontSize: 13.5, fontWeight: 600 }}><Moon size={15} /> {tUI('btnSombre', langue)}</button>
         </div>
       ))}
 
-      {section('Notifications', (
+      {section(tUI('sectionNotifications', langue), (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: C.ink }}><input type="checkbox" checked={form.notifEmail} onChange={e => setForm(f => ({ ...f, notifEmail: e.target.checked }))} /> Recevoir les confirmations par e-mail</label>
-          <label style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: C.ink }}><input type="checkbox" checked={form.notifSMS} onChange={e => setForm(f => ({ ...f, notifSMS: e.target.checked }))} /> Recevoir les rappels par SMS</label>
+          <label style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: C.ink }}><input type="checkbox" checked={form.notifEmail} onChange={e => setForm(f => ({ ...f, notifEmail: e.target.checked }))} /> {tUI('notifEmailLabel', langue)}</label>
+          <label style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: C.ink }}><input type="checkbox" checked={form.notifSMS} onChange={e => setForm(f => ({ ...f, notifSMS: e.target.checked }))} /> {tUI('notifSmsLabel', langue)}</label>
         </div>
       ))}
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        <button onClick={() => { onSave(form); setSaved(true); setTimeout(() => setSaved(false), 2000); }} style={{ background: ACCENTS.glacier, color: '#fff', border: 'none', borderRadius: 9, padding: '10px 22px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>Enregistrer</button>
-        {saved && <span style={{ fontSize: 13.5, color: ACCENTS.green, fontWeight: 600 }}>Paramètres enregistrés ✓</span>}
+        <button onClick={() => { onSave(form); setSaved(true); setTimeout(() => setSaved(false), 2000); }} style={{ background: ACCENTS.glacier, color: '#fff', border: 'none', borderRadius: 9, padding: '10px 22px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>{tUI('btnSave', langue)}</button>
+        {saved && <span style={{ fontSize: 13.5, color: ACCENTS.green, fontWeight: 600 }}>{tUI('settingsSaved', langue)}</span>}
       </div>
       </BlurGate>
     </div>
