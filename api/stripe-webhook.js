@@ -19,20 +19,46 @@ function buffer(readable) {
   });
 }
 
+async function getUserIdForEmail(email) {
+  const { data: usersData, error } = await supabaseAdmin.auth.admin.listUsers();
+  if (error) { console.error(error); return null; }
+  const user = usersData.users.find(u => u.email === email);
+  return user ? user.id : null;
+}
+
 async function setAbonnementForEmail(email, actif) {
   if (!email) return;
-  const { data: usersData, error: userError } = await supabaseAdmin.auth.admin.listUsers();
-  if (userError) { console.error(userError); return; }
-  const user = usersData.users.find(u => u.email === email);
-  if (!user) { console.error('Utilisateur introuvable pour', email); return; }
+  const userId = await getUserIdForEmail(email);
+  if (!userId) { console.error('Utilisateur introuvable pour', email); return; }
 
   await supabaseAdmin.from('kv_store').upsert({
-    user_id: user.id,
+    user_id: userId,
     key: 'skipro-abonnement-v1',
     value: actif ? 'actif' : 'inactif',
     shared: false,
     updated_at: new Date().toISOString()
   }, { onConflict: 'user_id,key,shared' });
+}
+
+async function markGuardUsed(userId, guardKey) {
+  if (!userId || !guardKey) return;
+  await supabaseAdmin.from('kv_store').upsert({
+    user_id: userId,
+    key: guardKey,
+    value: 'used',
+    shared: true,
+    updated_at: new Date().toISOString()
+  }, { onConflict: 'user_id,key,shared' });
+}
+
+async function isGuardAlreadyUsed(guardKey) {
+  const { data } = await supabaseAdmin
+    .from('kv_store')
+    .select('value')
+    .eq('key', guardKey)
+    .eq('shared', true)
+    .limit(1);
+  return !!(data && data.length > 0);
 }
 
 export default async function handler(req, res) {
@@ -53,7 +79,41 @@ export default async function handler(req, res) {
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object;
-        await setAbonnementForEmail(session.customer_email || session.customer_details?.email, true);
+        const email = session.customer_email || session.customer_details?.email;
+        await setAbonnementForEmail(email, true);
+
+        const userId = await getUserIdForEmail(email);
+        const telephone = session.metadata?.telephone || '';
+
+        // Enregistre le telephone comme "essai utilise"
+        if (userId && telephone) {
+          await markGuardUsed(userId, `trial-guard:phone:${telephone}`);
+        }
+
+        // Verifie l'empreinte de la carte bancaire utilisee
+        if (session.subscription) {
+          try {
+            const subscription = await stripe.subscriptions.retrieve(session.subscription, {
+              expand: ['default_payment_method']
+            });
+            const fingerprint = subscription.default_payment_method?.card?.fingerprint;
+
+            if (fingerprint) {
+              const cardGuardKey = `trial-guard:card:${fingerprint}`;
+              const cardAlreadyUsed = await isGuardAlreadyUsed(cardGuardKey);
+
+              if (cardAlreadyUsed && subscription.status === 'trialing') {
+                // Cette carte a deja beneficie d'un essai avec un autre compte : on coupe l'essai immediatement
+                await stripe.subscriptions.update(session.subscription, { trial_end: 'now' });
+                console.log('Essai coupe immediatement (carte deja utilisee) pour', email);
+              }
+
+              if (userId) await markGuardUsed(userId, cardGuardKey);
+            }
+          } catch (cardErr) {
+            console.error('Erreur verification empreinte carte', cardErr);
+          }
+        }
         break;
       }
       case 'customer.subscription.deleted': {

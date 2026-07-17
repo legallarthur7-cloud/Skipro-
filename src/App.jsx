@@ -1455,10 +1455,11 @@ function ParametresView({ settings, onSave, C, subscribed }) {
   const handleSubscribe = async () => {
     setSubLoading(true);
     try {
+      const { data: { user } } = await supabase.auth.getUser();
       const res = await fetch('/api/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: form.email }),
+        body: JSON.stringify({ email: form.email, telephone: form.telephone || '', userId: user?.id || '' }),
       });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
