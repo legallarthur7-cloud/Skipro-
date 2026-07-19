@@ -1566,7 +1566,11 @@ function ParametresView({ settings, onSave, C, subscribed }) {
         <div>
           {field(tUI('labelSlug', langue), <input style={inputStyle} value={form.slug || ''} onChange={e => setForm(f => ({ ...f, slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '') }))} placeholder="arthur" />)}
           <div style={{ fontSize: 12.5, color: C.inkSoft, marginTop: 8 }}>
-            {tUI('yourPublicLink', langue)} : <strong style={{ color: C.navy }}>skipro-app.com/{form.slug || '...'}</strong>
+            {tUI('yourPublicLink', langue)} : {form.slug ? (
+              <a href={`https://skipro-app.com/${form.slug}`} target="_blank" rel="noopener noreferrer" style={{ color: ACCENTS.glacier, fontWeight: 700 }}>skipro-app.com/{form.slug}</a>
+            ) : (
+              <strong style={{ color: C.navy }}>skipro-app.com/...</strong>
+            )}
           </div>
         </div>
       ))}
