@@ -140,7 +140,10 @@ const UI_TRANSLATIONS = {
     errFillAllFields: 'Merci de remplir tous les champs.', errPasswordsMismatch: 'Les mots de passe ne correspondent pas.',
     successAccountCreated: 'Compte créé ! Vérifie tes e-mails pour confirmer ton adresse, puis connecte-toi.',
     errFillEmailPassword: 'Merci de renseigner ton e-mail et ton mot de passe.', loadingText: 'Chargement…',
-    btnManageSubscription: 'Gérer mon abonnement', errPortalUnavailable: "Impossible d'ouvrir la gestion de l'abonnement pour le moment."
+    btnManageSubscription: 'Gérer mon abonnement', errPortalUnavailable: "Impossible d'ouvrir la gestion de l'abonnement pour le moment.",
+    sectionLienReservation: 'Lien de réservation en ligne', labelSlug: 'Identifiant personnalisé',
+    yourPublicLink: 'Ton lien public', slugTaken: 'Cet identifiant est déjà pris, choisis-en un autre.',
+    slugSaved: 'Lien enregistré ✓'
   },
   Anglais: {
     dashboard: 'Dashboard', calendar: 'Calendar', reservations: 'Bookings',
@@ -216,7 +219,10 @@ const UI_TRANSLATIONS = {
     errFillAllFields: 'Please fill in all fields.', errPasswordsMismatch: 'Passwords do not match.',
     successAccountCreated: 'Account created! Check your email to confirm your address, then log in.',
     errFillEmailPassword: 'Please enter your email and password.', loadingText: 'Loading…',
-    btnManageSubscription: 'Manage subscription', errPortalUnavailable: 'Unable to open subscription management right now.'
+    btnManageSubscription: 'Manage subscription', errPortalUnavailable: 'Unable to open subscription management right now.',
+    sectionLienReservation: 'Online booking link', labelSlug: 'Custom handle',
+    yourPublicLink: 'Your public link', slugTaken: 'This handle is already taken, choose another one.',
+    slugSaved: 'Link saved ✓'
   },
   Espagnol: {
     dashboard: 'Panel', calendar: 'Calendario', reservations: 'Reservas',
@@ -292,7 +298,10 @@ const UI_TRANSLATIONS = {
     errFillAllFields: 'Por favor completa todos los campos.', errPasswordsMismatch: 'Las contraseñas no coinciden.',
     successAccountCreated: '¡Cuenta creada! Revisa tu correo para confirmar tu dirección y luego inicia sesión.',
     errFillEmailPassword: 'Por favor ingresa tu correo y contraseña.', loadingText: 'Cargando…',
-    btnManageSubscription: 'Gestionar suscripción', errPortalUnavailable: 'No se puede abrir la gestión de la suscripción en este momento.'
+    btnManageSubscription: 'Gestionar suscripción', errPortalUnavailable: 'No se puede abrir la gestión de la suscripción en este momento.',
+    sectionLienReservation: 'Enlace de reserva en línea', labelSlug: 'Identificador personalizado',
+    yourPublicLink: 'Tu enlace público', slugTaken: 'Este identificador ya está en uso, elige otro.',
+    slugSaved: 'Enlace guardado ✓'
   },
   Italien: {
     dashboard: 'Bacheca', calendar: 'Calendario', reservations: 'Prenotazioni',
@@ -368,7 +377,10 @@ const UI_TRANSLATIONS = {
     errFillAllFields: 'Compila tutti i campi, per favore.', errPasswordsMismatch: 'Le password non corrispondono.',
     successAccountCreated: 'Account creato! Controlla la tua e-mail per confermare il tuo indirizzo, poi accedi.',
     errFillEmailPassword: 'Inserisci la tua e-mail e password.', loadingText: 'Caricamento…',
-    btnManageSubscription: 'Gestisci abbonamento', errPortalUnavailable: "Impossibile aprire la gestione dell'abbonamento al momento."
+    btnManageSubscription: 'Gestisci abbonamento', errPortalUnavailable: "Impossibile aprire la gestione dell'abbonamento al momento.",
+    sectionLienReservation: 'Link di prenotazione online', labelSlug: 'Identificativo personalizzato',
+    yourPublicLink: 'Il tuo link pubblico', slugTaken: 'Questo identificativo è già in uso, scegline un altro.',
+    slugSaved: 'Link salvato ✓'
   },
   Portugais: {
     dashboard: 'Painel', calendar: 'Calendário', reservations: 'Reservas',
@@ -444,7 +456,10 @@ const UI_TRANSLATIONS = {
     errFillAllFields: 'Por favor, preencha todos os campos.', errPasswordsMismatch: 'As senhas não coincidem.',
     successAccountCreated: 'Conta criada! Verifique seu e-mail para confirmar seu endereço e depois faça login.',
     errFillEmailPassword: 'Por favor, informe seu e-mail e senha.', loadingText: 'Carregando…',
-    btnManageSubscription: 'Gerenciar assinatura', errPortalUnavailable: 'Não foi possível abrir o gerenciamento da assinatura no momento.'
+    btnManageSubscription: 'Gerenciar assinatura', errPortalUnavailable: 'Não foi possível abrir o gerenciamento da assinatura no momento.',
+    sectionLienReservation: 'Link de reserva online', labelSlug: 'Identificador personalizado',
+    yourPublicLink: 'Seu link público', slugTaken: 'Este identificador já está em uso, escolha outro.',
+    slugSaved: 'Link salvo ✓'
   }
 };
 const LOCALE_MAP = { Français: 'fr-FR', Anglais: 'en-US', Espagnol: 'es-ES', Italien: 'it-IT', Portugais: 'pt-PT' };
@@ -594,7 +609,7 @@ const DEFAULT_SETTINGS = {
   nom: 'Moniteur ESF', email: 'contact@exemple.com', devise: 'EUR', langue: 'Français',
   fuseauHoraire: 'Europe/Paris',
   adresse: '', telephone: '', siret: '', profession: 'Moniteur de ski indépendant',
-  iban: '', bic: '', banque: '',
+  iban: '', bic: '', banque: '', slug: '',
   matinDebut: '09:00', matinFin: '12:30', apresMidiDebut: '13:30', apresMidiFin: '17:00',
   tarifSkiHaute: 75, tarifSkiBasse: 55, tarifSnowboardHaute: 80, tarifSnowboardBasse: 60,
   tarifDemiJourneeHaute: 210, tarifDemiJourneeBasse: 150, tarifJourneeHaute: 370, tarifJourneeBasse: 270,
@@ -1545,6 +1560,15 @@ function ParametresView({ settings, onSave, C, subscribed }) {
           {field(tUI('labelAdressePostale', langue), <input style={inputStyle} value={form.adresse || ''} onChange={set('adresse')} placeholder="Numéro, rue, code postal, ville" />)}
         </div>
         </>
+      ))}
+
+      {section(tUI('sectionLienReservation', langue), (
+        <div>
+          {field(tUI('labelSlug', langue), <input style={inputStyle} value={form.slug || ''} onChange={e => setForm(f => ({ ...f, slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '') }))} placeholder="arthur" />)}
+          <div style={{ fontSize: 12.5, color: C.inkSoft, marginTop: 8 }}>
+            {tUI('yourPublicLink', langue)} : <strong style={{ color: C.navy }}>skipro-app.com/{form.slug || '...'}</strong>
+          </div>
+        </div>
       ))}
 
       {section(tUI('sectionBanque', langue), (
