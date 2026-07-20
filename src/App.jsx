@@ -765,6 +765,7 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
   const langue = settings.langue;
   const [form, setForm] = useState({ type: 'Heure', creneau: 'Matin', ...initial });
   const isEdit = !!initial.id;
+  const [mode, setMode] = useState(initial.absence ? 'indisponible' : 'reservation');
   const duration = useMemo(() => { const d = timeToMinutes(form.heureFin) - timeToMinutes(form.heureDebut); return d > 0 ? minutesLabel(d) : '—'; }, [form.heureDebut, form.heureFin]);
   const set = (k) => (e) => setForm(f => ({ ...f, [k]: e.target.value }));
   const CRENEAUX = getCreneaux(settings);
@@ -817,9 +818,16 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(10,18,27,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: 20 }} onClick={onClose}>
       <div style={{ background: C.snow, borderRadius: 18, width: '100%', maxWidth: 640, maxHeight: '88vh', overflowY: 'auto', boxShadow: '0 30px 80px -30px rgba(0,0,0,0.5)' }} onClick={e => e.stopPropagation()}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 24px', borderBottom: `1px solid ${C.iceLine}`, position: 'sticky', top: 0, background: C.snow, zIndex: 1 }}>
-          <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 17, color: C.navy }}>{isEdit ? tUI('modalEditTitle', langue) : tUI('newReservation', langue)}</div>
+          <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 17, color: C.navy }}>{isEdit ? (initial.absence ? "Modifier l'indisponibilité" : tUI('modalEditTitle', langue)) : (mode === 'indisponible' ? 'Se marquer indisponible' : tUI('newReservation', langue))}</div>
           <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: C.inkSoft }}><X size={20} /></button>
         </div>
+        {!isEdit && (
+          <div style={{ display: 'flex', gap: 8, padding: '16px 24px 0' }}>
+            <button type="button" onClick={() => setMode('reservation')} style={{ flex: 1, padding: '9px 12px', borderRadius: 9, cursor: 'pointer', fontSize: 13.5, fontWeight: 600, border: `1px solid ${mode === 'reservation' ? ACCENTS.glacier : C.iceLine}`, background: mode === 'reservation' ? ACCENTS.glacier + '18' : C.card, color: mode === 'reservation' ? ACCENTS.glacierDeep : C.ink }}>Réservation client</button>
+            <button type="button" onClick={() => setMode('indisponible')} style={{ flex: 1, padding: '9px 12px', borderRadius: 9, cursor: 'pointer', fontSize: 13.5, fontWeight: 600, border: `1px solid ${mode === 'indisponible' ? ACCENTS.red : C.iceLine}`, background: mode === 'indisponible' ? ACCENTS.red + '18' : C.card, color: mode === 'indisponible' ? ACCENTS.red : C.ink }}>Se marquer indisponible</button>
+          </div>
+        )}
+        {mode === 'reservation' && (
         <div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 18 }}>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
             {ENGAGEMENTS.map(type => (
@@ -883,11 +891,28 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
           </div>
           {field(tUI('fNotes', langue), <textarea style={{ ...inputStyle, minHeight: 70, resize: 'vertical' }} value={form.notes} onChange={set('notes')} />)}
         </div>
+        )}
+        {mode === 'indisponible' && (
+        <div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 18 }}>
+          <div className="form-grid-2">
+            {field(tUI('fDate', langue), <input type="date" style={inputStyle} value={form.date} onChange={set('date')} />)}
+            {field(tUI('fHeureDebut', langue), <input type="time" style={inputStyle} value={form.heureDebut} onChange={set('heureDebut')} />)}
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <label style={{ fontSize: 12, fontWeight: 600, color: C.inkSoft }}>Durée de l'indisponibilité</label>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {Array.from({ length: 16 }, (_, i) => (i + 1) * 30).map(d => (
+                <button key={d} type="button" onClick={() => setDuree(d)} style={{ padding: '8px 12px', borderRadius: 8, cursor: 'pointer', fontSize: 12.5, fontWeight: 600, border: `1px solid ${(timeToMinutes(form.heureFin) - timeToMinutes(form.heureDebut)) === d ? ACCENTS.red : C.iceLine}`, background: (timeToMinutes(form.heureFin) - timeToMinutes(form.heureDebut)) === d ? ACCENTS.red + '18' : C.card, color: (timeToMinutes(form.heureFin) - timeToMinutes(form.heureDebut)) === d ? ACCENTS.red : C.ink }}>{d < 60 ? `${d}min` : (d % 60 === 0 ? `${d / 60}h` : `${Math.floor(d / 60)}h30`)}</button>
+              ))}
+            </div>
+          </div>
+        </div>
+        )}
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '16px 24px', borderTop: `1px solid ${C.iceLine}` }}>
           <div>{isEdit && <button onClick={() => onDelete(form.id)} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: 'none', color: ACCENTS.red, cursor: 'pointer', fontSize: 14, fontWeight: 600 }}><Trash2 size={15} /> {tUI('btnDelete', langue)}</button>}</div>
           <div style={{ display: 'flex', gap: 10 }}>
             <button onClick={onClose} style={{ padding: '9px 18px', borderRadius: 9, border: `1px solid ${C.iceLine}`, background: C.card, color: C.ink, cursor: 'pointer', fontSize: 14, fontWeight: 600 }}>{tUI('btnCancel', langue)}</button>
-            <button onClick={() => onSave(form)} style={{ padding: '9px 18px', borderRadius: 9, border: 'none', background: ACCENTS.glacier, color: '#fff', cursor: 'pointer', fontSize: 14, fontWeight: 600 }}>{isEdit ? tUI('btnSave', langue) : tUI('btnCreateReservation', langue)}</button>
+            <button onClick={() => onSave(mode === 'indisponible' ? { ...form, prenom: 'Indisponible', nom: '', telephone: '', email: '', nationalite: '', discipline: '', niveau: '', nbPersonnes: 0, station: '', pointRdv: '', type: 'Heure', statut: 'Confirmée', paiement: 'Non payé', modePaiement: 'Non renseigné', prix: 0, notes: form.notes || 'Indisponibilité', absence: true } : form)} style={{ padding: '9px 18px', borderRadius: 9, border: 'none', background: mode === 'indisponible' ? ACCENTS.red : ACCENTS.glacier, color: '#fff', cursor: 'pointer', fontSize: 14, fontWeight: 600 }}>{isEdit ? tUI('btnSave', langue) : (mode === 'indisponible' ? 'Bloquer ce créneau' : tUI('btnCreateReservation', langue))}</button>
           </div>
         </div>
       </div>
@@ -1057,8 +1082,8 @@ function CalendarView({ reservations, onSlotClick, onEventClick, C, subscribed, 
           const startM = timeToMinutes(ev.heureDebut) - DAY_START * 60, endM = timeToMinutes(ev.heureFin) - DAY_START * 60;
           const top = (startM / 60) * ROW_HEIGHT, height = Math.max(((endM - startM) / 60) * ROW_HEIGHT, 24);
           return (
-            <div key={ev.id} onClick={(e) => { e.stopPropagation(); onEventClick(ev); }} style={{ position: 'absolute', top, height, left: 4, right: 4, background: C.card, borderLeft: `3px solid ${disciplineColor(ev.discipline)}`, borderRadius: 6, padding: '4px 7px', boxShadow: '0 2px 8px -3px rgba(0,0,0,0.25)', cursor: 'pointer', overflow: 'hidden', zIndex: 2 }}>
-              <div style={{ fontSize: 11.5, fontWeight: 700, color: C.navy, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{ev.prenom} {ev.nom}</div>
+            <div key={ev.id} onClick={(e) => { e.stopPropagation(); onEventClick(ev); }} style={{ position: 'absolute', top, height, left: 4, right: 4, background: ev.absence ? C.snowDim : C.card, borderLeft: `3px solid ${ev.absence ? C.inkSoft : disciplineColor(ev.discipline)}`, borderRadius: 6, padding: '4px 7px', boxShadow: '0 2px 8px -3px rgba(0,0,0,0.25)', cursor: 'pointer', overflow: 'hidden', zIndex: 2 }}>
+              <div style={{ fontSize: 11.5, fontWeight: 700, color: ev.absence ? C.inkSoft : C.navy, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{ev.absence ? 'Indisponible' : `${ev.prenom} ${ev.nom}`}</div>
               <div style={{ fontSize: 10.5, color: C.inkSoft }}>{fmtHeure(ev.heureDebut, langue)}–{fmtHeure(ev.heureFin, langue)}</div>
             </div>
           );
@@ -1874,6 +1899,7 @@ export default function App() {
   const C = PALETTES[settings.theme] || PALETTES.light;
 
   const saveAll = async (list) => { setReservations(list); await persistReservations(list); };
+  const realReservations = reservations.filter(r => !r.absence);
   const handleSave = async (form) => {
     const clean = { ...form, age: Number(form.age) || '', nbPersonnes: Number(form.nbPersonnes) || 1, prix: Number(form.prix) || 0 };
     const list = clean.id ? reservations.map(r => r.id === clean.id ? clean : r) : [...reservations, { ...clean, id: Date.now() }];
@@ -1985,17 +2011,17 @@ export default function App() {
         {loading ? (
           <div style={{ color: C.inkSoft, fontSize: 14 }}>{tUI('loadingText', settings.langue)}</div>
         ) : tab === 'dashboard' ? (
-          <Dashboard reservations={reservations} onNewReservation={() => openNew()} C={C} devise={settings.devise} subscribed={subscribed} langue={settings.langue} />
+          <Dashboard reservations={realReservations} onNewReservation={() => openNew()} C={C} devise={settings.devise} subscribed={subscribed} langue={settings.langue} />
         ) : tab === 'calendar' ? (
           <CalendarView reservations={reservations} onSlotClick={openNew} onEventClick={openEdit} C={C} subscribed={subscribed} langue={settings.langue} />
         ) : tab === 'reservations' ? (
-          <ReservationsView reservations={reservations} onNew={() => openNew()} onEdit={openEdit} C={C} devise={settings.devise} langue={settings.langue} />
+          <ReservationsView reservations={realReservations} onNew={() => openNew()} onEdit={openEdit} C={C} devise={settings.devise} langue={settings.langue} />
         ) : tab === 'clients' ? (
-          <ClientsView reservations={reservations} C={C} devise={settings.devise} subscribed={subscribed} langue={settings.langue} />
+          <ClientsView reservations={realReservations} C={C} devise={settings.devise} subscribed={subscribed} langue={settings.langue} />
         ) : tab === 'paiements' ? (
-          <PaiementsView reservations={reservations} onUpdate={handleUpdate} onDelete={handleDelete} C={C} devise={settings.devise} settings={settings} subscribed={subscribed} />
+          <PaiementsView reservations={realReservations} onUpdate={handleUpdate} onDelete={handleDelete} C={C} devise={settings.devise} settings={settings} subscribed={subscribed} />
         ) : tab === 'stats' ? (
-          <StatsView reservations={reservations} C={C} devise={settings.devise} subscribed={subscribed} langue={settings.langue} />
+          <StatsView reservations={realReservations} C={C} devise={settings.devise} subscribed={subscribed} langue={settings.langue} />
         ) : (
           <ParametresView settings={settings} onSave={handleSaveSettings} C={C} subscribed={subscribed} />
         )}
