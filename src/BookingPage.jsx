@@ -76,11 +76,11 @@ const busyIntervals = (dateKey, busySlots) =>
 
 const overlaps = (start, end, intervals) => intervals.some(([s, e]) => start < e && end > s);
 
-const availableHourStarts = (dateKey, busySlots, workStart, workEnd) => {
+const availableHourStarts = (dateKey, busySlots, workStart, workEnd, duration) => {
   const busy = busyIntervals(dateKey, busySlots);
   const starts = [];
-  for (let m = workStart; m + HEURE_DURATION <= workEnd; m += 30) {
-    if (!overlaps(m, m + HEURE_DURATION, busy)) starts.push(m);
+  for (let m = workStart; m + duration <= workEnd; m += 30) {
+    if (!overlaps(m, m + duration, busy)) starts.push(m);
   }
   return starts;
 };
@@ -334,7 +334,7 @@ async function createDepositSession(slug, reservationId, amount, devise, prenom)
 const emptyForm = {
   prenom: '', nom: '', telephone: '', email: '', nationalite: '', langue: 'Français', age: '',
   discipline: 'Ski', niveau: 'Débutant', nbPersonnes: 1, station: STATIONS[0],
-  date: toKey(new Date()), type: 'Heure', creneau: 'Matin', modePaiement: 'Carte', message: ''
+  date: toKey(new Date()), type: 'Heure', creneau: 'Matin', modePaiement: 'Carte', dureeHeure: HEURE_DURATION, message: ''
 };
 
 export default function BookingPage({ slug }) {
@@ -381,7 +381,7 @@ export default function BookingPage({ slug }) {
   const workStart = useMemo(() => timeToMinutes(settings.matinDebut || '09:00'), [settings]);
   const workEnd = useMemo(() => timeToMinutes(settings.apresMidiFin || '17:00'), [settings]);
 
-  const hourOptions = useMemo(() => availableHourStarts(form.date, reservations, workStart, workEnd), [form.date, reservations, workStart, workEnd]);
+  const hourOptions = useMemo(() => availableHourStarts(form.date, reservations, workStart, workEnd, form.dureeHeure || HEURE_DURATION), [form.date, reservations, workStart, workEnd, form.dureeHeure]);
   const matinFree = useMemo(() => isCreneauFree(form.date, 'Matin', reservations, creneaux), [form.date, reservations, creneaux]);
   const apremFree = useMemo(() => isCreneauFree(form.date, 'Après-midi', reservations, creneaux), [form.date, reservations, creneaux]);
   const journeeFree = useMemo(() => isJourneeFree(form.date, reservations), [form.date, reservations]);
@@ -393,14 +393,14 @@ export default function BookingPage({ slug }) {
       if (f.type === 'Heure') {
         if (hourOptions.length > 0 && !hourOptions.includes(timeToMinutes(f.heureDebut || '09:00'))) {
           const start = hourOptions[0];
-          return { ...f, heureDebut: minutesToTime(start), heureFin: minutesToTime(start + HEURE_DURATION) };
+          return { ...f, heureDebut: minutesToTime(start), heureFin: minutesToTime(start + (f.dureeHeure || HEURE_DURATION)) };
         }
       } else if (f.type === 'Demi-journée') {
         if (f.creneau === 'Matin' && !matinFree && apremFree) return { ...f, creneau: 'Après-midi', heureDebut: creneaux['Après-midi'][0], heureFin: creneaux['Après-midi'][1] };
         if (f.creneau === 'Après-midi' && !apremFree && matinFree) return { ...f, creneau: 'Matin', heureDebut: creneaux['Matin'][0], heureFin: creneaux['Matin'][1] };
       } else if (f.type === 'Journée' && !journeeFree && hourOptions.length > 0) {
         const start = hourOptions[0];
-        return { ...f, type: 'Heure', heureDebut: minutesToTime(start), heureFin: minutesToTime(start + HEURE_DURATION) };
+        return { ...f, type: 'Heure', heureDebut: minutesToTime(start), heureFin: minutesToTime(start + (f.dureeHeure || HEURE_DURATION)) };
       }
       return f;
     });
@@ -410,7 +410,7 @@ export default function BookingPage({ slug }) {
     if (form.type === 'Journée') return high ? settings.tarifJourneeHaute : settings.tarifJourneeBasse;
     if (form.type === 'Demi-journée') return high ? settings.tarifDemiJourneeHaute : settings.tarifDemiJourneeBasse;
     const rate = form.discipline === 'Ski' ? (high ? settings.tarifSkiHaute : settings.tarifSkiBasse) : (high ? settings.tarifSnowboardHaute : settings.tarifSnowboardBasse);
-    return rate;
+    return Math.round(rate * ((form.dureeHeure || HEURE_DURATION) / 60));
   })();
   const depositAmount = Math.round(Number(estimate) * 0.15);
 
@@ -423,11 +423,19 @@ export default function BookingPage({ slug }) {
         return { ...f, type, creneau: cren, heureDebut: creneaux[cren][0], heureFin: creneaux[cren][1] };
       }
       const start = hourOptions[0];
-      return start !== undefined ? { ...f, type, heureDebut: minutesToTime(start), heureFin: minutesToTime(start + HEURE_DURATION) } : { ...f, type };
+      return start !== undefined ? { ...f, type, heureDebut: minutesToTime(start), heureFin: minutesToTime(start + (f.dureeHeure || HEURE_DURATION)) } : { ...f, type };
     });
   };
   const setCreneau = (cren) => { if ((cren === 'Matin' && !matinFree) || (cren === 'Après-midi' && !apremFree)) return; setForm(f => ({ ...f, creneau: cren, heureDebut: creneaux[cren][0], heureFin: creneaux[cren][1] })); };
-  const setHeureDebut = (e) => { const start = Number(e.target.value); setForm(f => ({ ...f, heureDebut: minutesToTime(start), heureFin: minutesToTime(start + HEURE_DURATION) })); };
+  const setHeureDebut = (e) => { const start = Number(e.target.value); setForm(f => ({ ...f, heureDebut: minutesToTime(start), heureFin: minutesToTime(start + (f.dureeHeure || HEURE_DURATION)) })); };
+  const setDureeHeure = (duree) => {
+    setForm(f => {
+      const opts = availableHourStarts(f.date, reservations, workStart, workEnd, duree);
+      const current = timeToMinutes(f.heureDebut || '09:00');
+      const start = opts.includes(current) ? current : opts[0];
+      return start !== undefined ? { ...f, dureeHeure: duree, heureDebut: minutesToTime(start), heureFin: minutesToTime(start + duree) } : { ...f, dureeHeure: duree };
+    });
+  };
 
   const handleSubmit = async () => {
     if (!form.prenom || !form.nom || !form.telephone || !form.date) { setError(t.errorRequired); return; }
@@ -593,10 +601,17 @@ const inputStyle = { border: `1px solid ${COLORS.iceLine}`, borderRadius: 9, pad
               </div>
             )}
             {form.type === 'Heure' && (
+              <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
+                {[60, 90, 120].map(d => (
+                  <button key={d} type="button" onClick={() => setDureeHeure(d)} style={{ flex: 1, padding: '8px', borderRadius: 8, cursor: 'pointer', fontSize: 12.5, fontWeight: 600, border: `1px solid ${(form.dureeHeure || HEURE_DURATION) === d ? COLORS.glacier : COLORS.iceLine}`, background: (form.dureeHeure || HEURE_DURATION) === d ? COLORS.glacier + '18' : '#fff', color: (form.dureeHeure || HEURE_DURATION) === d ? COLORS.glacierDeep : COLORS.ink }}>{d === 60 ? '1h' : d === 90 ? '1h30' : '2h'}</button>
+                ))}
+              </div>
+            )}
+            {form.type === 'Heure' && (
               hourOptions.length > 0 ? (
                 <div style={{ marginBottom: 10 }}>
                   {field(t.heureLabel, <select style={inputStyle} value={timeToMinutes(form.heureDebut || minutesToTime(hourOptions[0]))} onChange={setHeureDebut}>
-                    {hourOptions.map(m => <option key={m} value={m}>{minutesToTime(m)} – {minutesToTime(m + HEURE_DURATION)}</option>)}
+                    {hourOptions.map(m => <option key={m} value={m}>{minutesToTime(m)} – {minutesToTime(m + (form.dureeHeure || HEURE_DURATION))}</option>)}
                   </select>)}
                 </div>
               ) : (
