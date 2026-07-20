@@ -23,7 +23,7 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { slug, reservationId, amount, devise } = req.body;
+    const { slug, reservationId, amount, devise, prenom } = req.body;
     if (!slug || !reservationId || !amount) {
       return res.status(400).json({ error: 'slug, reservationId et amount requis' });
     }
@@ -45,7 +45,7 @@ export default async function handler(req, res) {
         },
         quantity: 1
       }],
-      success_url: `${req.headers.origin}/${slug}?paiement=succes&reservation=${reservationId}`,
+      success_url: `${req.headers.origin}/${slug}?paiement=succes&reservation=${reservationId}&prenom=${encodeURIComponent(prenom || '')}`,
       cancel_url: `${req.headers.origin}/${slug}?paiement=annule&reservation=${reservationId}`,
       metadata: { type: 'reservation-deposit', slug, reservationId: String(reservationId), userId }
     });

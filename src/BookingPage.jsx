@@ -315,11 +315,11 @@ async function postPublicBooking(slug, reservation) {
   return data; // { ok, id }
 }
 
-async function createDepositSession(slug, reservationId, amount, devise) {
+async function createDepositSession(slug, reservationId, amount, devise, prenom) {
   const res = await fetch('/api/create-deposit-session', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ slug, reservationId, amount, devise })
+    body: JSON.stringify({ slug, reservationId, amount, devise, prenom })
   });
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || 'Erreur inconnue');
@@ -343,12 +343,15 @@ export default function BookingPage({ slug }) {
   const [ready, setReady] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [paymentReturn, setPaymentReturn] = useState(null); // 'succes' | 'annule' | null
+  const [paymentPrenom, setPaymentPrenom] = useState('');
   const t = T[uiLang];
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const paiementStatus = params.get('paiement');
     if (paiementStatus === 'succes' || paiementStatus === 'annule') setPaymentReturn(paiementStatus);
+    const prenomFromUrl = params.get('prenom');
+    if (prenomFromUrl) setPaymentPrenom(prenomFromUrl);
     const link = document.createElement('link');
     link.href = 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600;700&display=swap';
     link.rel = 'stylesheet'; document.head.appendChild(link);
@@ -438,7 +441,7 @@ export default function BookingPage({ slug }) {
     try {
       const result = await postPublicBooking(slug, reservation);
       if (form.modePaiement === 'Espèces') {
-        const { url } = await createDepositSession(slug, result.id, depositAmount, settings.devise);
+        const { url } = await createDepositSession(slug, result.id, depositAmount, settings.devise, form.prenom);
         window.location.href = url;
         return;
       }
@@ -494,7 +497,7 @@ const inputStyle = { border: `1px solid ${COLORS.iceLine}`, borderRadius: 9, pad
             <CheckCircle2 size={26} color={COLORS.green} />
           </div>
           <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 21, fontWeight: 700, color: COLORS.navy, marginBottom: 10 }}>{t.paymentSuccessTitle}</h1>
-          <p style={{ fontSize: 14.5, color: COLORS.inkSoft, lineHeight: 1.6 }}>{t.paymentSuccessBody(form.prenom, settings.nom)}</p>
+          <p style={{ fontSize: 14.5, color: COLORS.inkSoft, lineHeight: 1.6 }}>{t.paymentSuccessBody(paymentPrenom || form.prenom, settings.nom)}</p>
         </div>
       </div>
     );
