@@ -1190,7 +1190,17 @@ function CalendarView({ reservations, onSlotClick, onEventClick, onAbsenceUpdate
       setDrag(d => {
         if (!d) return d;
         if (d.kind === 'block') {
-          if (d.mode === 'move-days' || d.mode === 'extend-left' || d.mode === 'extend-right') {
+          // 'move-days' (glisser le corps du bloc) bouge à la fois les jours (X) ET l'horaire (Y) ;
+          // les poignées de bord ('extend-left'/'extend-right') ne bougent que les jours ; les
+          // poignées haut/bas ('resize-top'/'resize-bottom') ne changent que l'horaire.
+          if (d.mode === 'move-days') {
+            return {
+              ...d,
+              dayDelta: Math.round((getClientX(e) - d.startX) / colWidth),
+              deltaMin: Math.round(((getClientY(e) - d.startY) / ROW_HEIGHT) * 60 / 30) * 30
+            };
+          }
+          if (d.mode === 'extend-left' || d.mode === 'extend-right') {
             return { ...d, dayDelta: Math.round((getClientX(e) - d.startX) / colWidth) };
           }
           return { ...d, deltaMin: Math.round(((getClientY(e) - d.startY) / ROW_HEIGHT) * 60 / 30) * 30 };
@@ -1207,13 +1217,25 @@ function CalendarView({ reservations, onSlotClick, onEventClick, onAbsenceUpdate
         const span = d.span;
         if (d.mode === 'move-days') {
           const dayDelta = d.dayDelta || 0;
-          if (dayDelta === 0) return null;
+          const deltaMin = d.deltaMin || 0;
+          if (dayDelta === 0 && deltaMin === 0) return null;
           const newMin = span.minIdx + dayDelta, newMax = span.maxIdx + dayDelta;
-          if (newMin < 0 || newMax > 6) return null;
+          if (dayDelta !== 0 && (newMin < 0 || newMax > 6)) return null;
+          let newStart = d.origStart + deltaMin, newEnd = d.origEnd + deltaMin;
+          newStart = Math.max(0, newStart);
+          newEnd = Math.min((DAY_END - DAY_START) * 60, newEnd);
+          const heureDebut = minutesToTime(newStart + DAY_START * 60);
+          const heureFin = minutesToTime(newEnd + DAY_START * 60);
           didDragRef.current = true;
-          const upsert = span.entries.map(en => ({ ...en, date: weekDayKeys[weekDayKeys.indexOf(en.date) + dayDelta] }));
+          const upsert = span.entries.map(en => {
+            const date = dayDelta !== 0 ? weekDayKeys[weekDayKeys.indexOf(en.date) + dayDelta] : en.date;
+            return deltaMin !== 0 ? { ...en, date, heureDebut, heureFin } : { ...en, date };
+          });
+          const parts = [];
+          if (dayDelta !== 0) parts.push(`aux jours du ${fmtDateShort(weekDayKeys[newMin])} au ${fmtDateShort(weekDayKeys[newMax])}`);
+          if (deltaMin !== 0) parts.push(`à l'horaire ${heureDebut}–${heureFin}`);
           setPendingConfirm({
-            message: `Déplacer cette indisponibilité du ${fmtDateShort(weekDayKeys[newMin])} au ${fmtDateShort(weekDayKeys[newMax])} ?`,
+            message: `Déplacer cette indisponibilité ${parts.join(' et ')} ?`,
             payload: { upsert, removeIds: [] }
           });
           return null;
@@ -1396,7 +1418,8 @@ function CalendarView({ reservations, onSlotClick, onEventClick, onAbsenceUpdate
                 const dDay = isDragging ? (drag.dayDelta || 0) : 0;
                 const rep = span.entries[0];
                 let startM = timeToMinutes(rep.heureDebut) - DAY_START * 60, endM = timeToMinutes(rep.heureFin) - DAY_START * 60;
-                if (isDragging && drag.mode === 'resize-bottom') endM = Math.max(startM + 30, endM + dMin);
+                if (isDragging && drag.mode === 'move-days') { startM += dMin; endM += dMin; }
+                else if (isDragging && drag.mode === 'resize-bottom') endM = Math.max(startM + 30, endM + dMin);
                 else if (isDragging && drag.mode === 'resize-top') startM = Math.min(endM - 30, startM + dMin);
                 const top = (startM / 60) * ROW_HEIGHT, height = Math.max(((endM - startM) / 60) * ROW_HEIGHT, 24);
                 let minIdx = span.minIdx, maxIdx = span.maxIdx;
