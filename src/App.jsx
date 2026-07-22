@@ -1063,10 +1063,7 @@ function Dashboard({ reservations, onNewReservation, C, devise, subscribed, lang
 /* ==================================================================================
    CALENDAR
    ================================================================================== */
-// Élargi (6h-22h au lieu de 8h-19h) pour que les réservations hors créneaux standards
-// acceptées par le moniteur (cours très tôt le matin ou tard le soir) s'affichent
-// correctement dans le calendrier au lieu d'être coupées en haut/bas de la grille.
-const DAY_START = 6, DAY_END = 22, ROW_HEIGHT = 52;
+const DAY_START = 8, DAY_END = 19, ROW_HEIGHT = 52;
 
 function MonthGrid({ anchor, reservations, onDayClick, C, langue }) {
   const days_short = DAYS_SHORT_MAP[langue] || DAYS_SHORT_MAP['Français'];
