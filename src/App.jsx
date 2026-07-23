@@ -823,12 +823,24 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
     return null;
   }, [settings]);
 
+  // Calcule automatiquement le prix d'un cours "Heure" au prorata de la durée exacte choisie
+  // (ex : 1h30 = 1.5x le tarif horaire, 1h26 = 86/60x le tarif horaire) — le moniteur n'a plus
+  // besoin de calculer lui-même, quelle que soit la durée demandée par le client.
+  const priceForHeure = useCallback((heureDebut, heureFin, discipline, dateKey) => {
+    const start = timeToMinutes(heureDebut), end = timeToMinutes(heureFin);
+    const dureeMin = end - start;
+    if (!(dureeMin > 0)) return '';
+    const high = isHighSeason(dateKey, settings);
+    const hourlyRate = discipline === 'Ski' ? (high ? settings.tarifSkiHaute : settings.tarifSkiBasse) : (high ? settings.tarifSnowboardHaute : settings.tarifSnowboardBasse);
+    return Math.round(hourlyRate * (dureeMin / 60) * 100) / 100;
+  }, [settings]);
+
   const setEngagement = (e) => {
     const type = e.target.value;
     setForm(f => {
       if (type === 'Journée') return { ...f, type, heureDebut: JOURNEE_HOURS[0], heureFin: JOURNEE_HOURS[1], prix: priceForType(type, f.creneau, f.date) };
       if (type === 'Demi-journée') { const cren = f.creneau || 'Matin'; return { ...f, type, creneau: cren, heureDebut: CRENEAUX[cren][0], heureFin: CRENEAUX[cren][1], prix: priceForType(type, cren, f.date) }; }
-      return { ...f, type };
+      return { ...f, type, prix: priceForHeure(f.heureDebut, f.heureFin, f.discipline, f.date) };
     });
   };
   const setCreneau = (e) => {
@@ -837,16 +849,38 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
   };
   const setDate = (e) => {
     const date = e.target.value;
-    setForm(f => ({ ...f, date, prix: f.type !== 'Heure' ? priceForType(f.type, f.creneau, date) : f.prix }));
+    setForm(f => ({ ...f, date, prix: f.type === 'Heure' ? priceForHeure(f.heureDebut, f.heureFin, f.discipline, date) : priceForType(f.type, f.creneau, date) }));
   };
   const setDuree = (mins) => {
     const start = timeToMinutes(form.heureDebut || '09:00');
     const total = start + mins;
-    setForm(f => ({ ...f, heureFin: `${pad(Math.floor(total / 60))}:${pad(total % 60)}` }));
+    const heureFin = `${pad(Math.floor(total / 60))}:${pad(total % 60)}`;
+    setForm(f => ({ ...f, heureFin, prix: priceForHeure(f.heureDebut, heureFin, f.discipline, f.date) }));
+  };
+  const setHeureDebut = (e) => {
+    const heureDebut = e.target.value;
+    setForm(f => ({ ...f, heureDebut, prix: f.type === 'Heure' ? priceForHeure(heureDebut, f.heureFin, f.discipline, f.date) : f.prix }));
+  };
+  const setHeureFin = (e) => {
+    const heureFin = e.target.value;
+    setForm(f => ({ ...f, heureFin, prix: f.type === 'Heure' ? priceForHeure(f.heureDebut, heureFin, f.discipline, f.date) : f.prix }));
+  };
+  const setDiscipline = (e) => {
+    const discipline = e.target.value;
+    setForm(f => ({ ...f, discipline, prix: f.type === 'Heure' ? priceForHeure(f.heureDebut, f.heureFin, discipline, f.date) : f.prix }));
   };
 
   const high = isHighSeason(form.date, settings);
   const hourlyHint = form.type === 'Heure' ? (form.discipline === 'Ski' ? (high ? settings.tarifSkiHaute : settings.tarifSkiBasse) : (high ? settings.tarifSnowboardHaute : settings.tarifSnowboardBasse)) : null;
+
+  // Calcule le prix par défaut dès l'ouverture d'une nouvelle réservation "Heure" (avant toute
+  // modification manuelle des champs), pour ne jamais laisser un prix vide ou à recalculer.
+  useEffect(() => {
+    if (!isEdit && form.type === 'Heure' && (form.prix === '' || form.prix === undefined || form.prix === null)) {
+      setForm(f => ({ ...f, prix: priceForHeure(f.heureDebut, f.heureFin, f.discipline, f.date) }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const inputStyle = { border: `1px solid ${C.iceLine}`, borderRadius: 8, padding: '8px 10px', fontSize: 14, fontFamily: 'Inter, sans-serif', color: C.ink, background: C.card, width: '100%', boxSizing: 'border-box' };
   const disabledStyle = { ...inputStyle, background: C.snowDim, color: C.inkSoft };
@@ -921,14 +955,14 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
             {field(tUI('fLangueParlee', langue), <select style={inputStyle} value={form.langue} onChange={set('langue')}>{LANGUES.map(l => <option key={l}>{l}</option>)}</select>)}
             {field(tUI('fAge', langue), <input type="number" style={inputStyle} value={form.age} onChange={set('age')} />)}
             {field(tUI('fNiveau', langue), <select style={inputStyle} value={form.niveau} onChange={set('niveau')}>{NIVEAUX.map(n => <option key={n} value={n}>{tVal('niveau', n, langue)}</option>)}</select>)}
-            {field(tUI('fDiscipline', langue), <select style={inputStyle} value={form.discipline} onChange={set('discipline')}>{DISCIPLINES.map(d => <option key={d}>{d}</option>)}</select>)}
+            {field(tUI('fDiscipline', langue), <select style={inputStyle} value={form.discipline} onChange={setDiscipline}>{DISCIPLINES.map(d => <option key={d}>{d}</option>)}</select>)}
             {field(tUI('fNbPersonnes', langue), <input type="number" min="1" style={inputStyle} value={form.nbPersonnes} onChange={set('nbPersonnes')} />)}
             {field(tUI('fStation', langue), <select style={inputStyle} value={form.station} onChange={set('station')}>{Object.entries(STATIONS_BY_MASSIF).map(([massif, list]) => <optgroup key={massif} label={massif}>{list.map(s => <option key={s}>{s}</option>)}</optgroup>)}</select>)}
             {field(tUI('fPointRdv', langue), <input style={inputStyle} value={form.pointRdv} onChange={set('pointRdv')} />)}
             {field(tUI('fDate', langue), <input type="date" style={inputStyle} value={form.date} onChange={setDate} />)}
             {!isEdit && field('Date de fin (optionnel — réserve toute la période)', <input type="date" min={form.date} style={inputStyle} value={form.dateFin || ''} onChange={set('dateFin')} />)}
-            {field(tUI('fHeureDebut', langue), <input type="time" disabled={form.type !== 'Heure'} style={form.type !== 'Heure' ? disabledStyle : inputStyle} value={form.heureDebut} onChange={set('heureDebut')} />)}
-            {field(tUI('fHeureFin', langue), <input type="time" disabled={form.type !== 'Heure'} style={form.type !== 'Heure' ? disabledStyle : inputStyle} value={form.heureFin} onChange={set('heureFin')} />)}
+            {field(tUI('fHeureDebut', langue), <input type="time" disabled={form.type !== 'Heure'} style={form.type !== 'Heure' ? disabledStyle : inputStyle} value={form.heureDebut} onChange={setHeureDebut} />)}
+            {field(tUI('fHeureFin', langue), <input type="time" disabled={form.type !== 'Heure'} style={form.type !== 'Heure' ? disabledStyle : inputStyle} value={form.heureFin} onChange={setHeureFin} />)}
             {field(tUI('fDuree', langue), <div style={{ ...inputStyle, background: C.snowDim, color: C.inkSoft }}>{duration}</div>)}
             {field(`${tUI('fPrix', langue)}${isPeriode ? ' par jour' : ''} (${settings.devise === 'USD' ? '$' : settings.devise === 'GBP' ? '£' : '€'})`, <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
               <input type="number" style={inputStyle} value={form.prix} onChange={set('prix')} />
