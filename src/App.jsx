@@ -587,8 +587,10 @@ const SCHOOL_HOLIDAYS = [
 
 const inRange = (dateKey, [start, end]) => dateKey >= start && dateKey <= end;
 
+// Pour un moniteur de ski, les vacances d'Été ne correspondent à aucune saison de ski :
+// on les exclut du calcul de "haute saison" (sinon juillet-août seraient facturés au tarif haute saison ski).
 const isSchoolHoliday = (dateKey, zone) => {
-  return SCHOOL_HOLIDAYS.some(period => {
+  return SCHOOL_HOLIDAYS.filter(period => period.name !== 'Été').some(period => {
     if (zone === 'Toutes') return inRange(dateKey, period.A) || inRange(dateKey, period.B) || inRange(dateKey, period.C);
     return inRange(dateKey, period[zone]);
   });
