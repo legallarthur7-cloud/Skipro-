@@ -971,7 +971,7 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings, res
           )}
           {conflictDate && (
             <div style={{ fontSize: 12.5, color: ACCENTS.red, fontWeight: 600, background: ACCENTS.red + '12', padding: '8px 12px', borderRadius: 8 }}>
-              Ce créneau chevauche une réservation ou une indisponibilité déjà existante le {fmtDateShort(conflictDate)}. Modifie l'heure ou la date pour continuer.
+              Cet horaire n'est plus disponible le {fmtDateShort(conflictDate)} — il chevauche une réservation ou une indisponibilité déjà existante. Modifie l'heure ou la date pour continuer.
             </div>
           )}
           <div className="form-grid-2">
