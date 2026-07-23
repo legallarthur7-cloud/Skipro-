@@ -809,6 +809,9 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
   const duration = useMemo(() => { const d = timeToMinutes(form.heureFin) - timeToMinutes(form.heureDebut); return d > 0 ? minutesLabel(d) : '—'; }, [form.heureDebut, form.heureFin]);
   const set = (k) => (e) => setForm(f => ({ ...f, [k]: e.target.value }));
   const CRENEAUX = getCreneaux(settings);
+  // Réservation sur une période complète (ex : stage d'une semaine) plutôt qu'un horaire précis un seul jour —
+  // même logique que le blocage de période pour une indisponibilité, mais pour une vraie réservation client.
+  const isPeriode = mode === 'reservation' && !isEdit && !!form.dateFin && form.dateFin > form.date;
 
   const engagementLabel = (type) => type === 'Heure' ? tUI('engHeure', langue) : type === 'Demi-journée' ? tUI('engDemiJournee', langue) : tUI('engJournee', langue);
   const creneauLabel = (cren) => cren === 'Matin' ? tUI('crenMatin', langue) : tUI('crenApresMidi', langue);
@@ -869,6 +872,7 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
         )}
         {mode === 'reservation' && (
         <div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 18 }}>
+          {!isPeriode && (
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
             {ENGAGEMENTS.map(type => (
               <button key={type} type="button" onClick={() => setEngagement({ target: { value: type } })} style={{
@@ -879,8 +883,9 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
               }}>{engagementLabel(type)}</button>
             ))}
           </div>
+          )}
           <Pill color={high ? ACCENTS.red : ACCENTS.green}>{high ? tUI('highSeason', langue) : tUI('lowSeason', langue)}</Pill>
-          {form.type === 'Demi-journée' && (
+          {!isPeriode && form.type === 'Demi-journée' && (
             <div style={{ display: 'flex', gap: 8 }}>
               {Object.keys(CRENEAUX).map(cren => (
                 <button key={cren} type="button" onClick={() => setCreneau({ target: { value: cren } })} style={{
@@ -892,7 +897,7 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
               ))}
             </div>
           )}
-          {form.type === 'Heure' && (
+          {!isPeriode && form.type === 'Heure' && (
             <div style={{ display: 'flex', gap: 8 }}>
               {[60, 90, 120].map(d => (
                 <button key={d} type="button" onClick={() => setDuree(d)} style={{
@@ -902,6 +907,11 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
                   color: duration === minutesLabel(d) ? ACCENTS.glacierDeep : C.ink
                 }}>{d === 60 ? '1h' : d === 90 ? '1h30' : '2h'}</button>
               ))}
+            </div>
+          )}
+          {!isEdit && form.dateFin && form.dateFin > form.date && (
+            <div style={{ fontSize: 12.5, color: ACCENTS.glacierDeep, fontWeight: 600, background: ACCENTS.glacier + '12', padding: '8px 12px', borderRadius: 8 }}>
+              Réservation sur toute la période du {fmtDateShort(form.date)} au {fmtDateShort(form.dateFin)} (journées complètes, sans horaire précis). Le prix saisi ci-dessous sera réparti sur les {(() => { let n = 0, cur = form.date; while (cur <= form.dateFin) { n++; cur = toKey(addDays(new Date(cur + 'T00:00:00'), 1)); } return n; })()} jours.
             </div>
           )}
           <div className="form-grid-2">
@@ -918,10 +928,11 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
             {field(tUI('fStation', langue), <select style={inputStyle} value={form.station} onChange={set('station')}>{Object.entries(STATIONS_BY_MASSIF).map(([massif, list]) => <optgroup key={massif} label={massif}>{list.map(s => <option key={s}>{s}</option>)}</optgroup>)}</select>)}
             {field(tUI('fPointRdv', langue), <input style={inputStyle} value={form.pointRdv} onChange={set('pointRdv')} />)}
             {field(tUI('fDate', langue), <input type="date" style={inputStyle} value={form.date} onChange={setDate} />)}
-            {field(tUI('fHeureDebut', langue), <input type="time" disabled={form.type !== 'Heure'} style={form.type !== 'Heure' ? disabledStyle : inputStyle} value={form.heureDebut} onChange={set('heureDebut')} />)}
-            {field(tUI('fHeureFin', langue), <input type="time" disabled={form.type !== 'Heure'} style={form.type !== 'Heure' ? disabledStyle : inputStyle} value={form.heureFin} onChange={set('heureFin')} />)}
-            {field(tUI('fDuree', langue), <div style={{ ...inputStyle, background: C.snowDim, color: C.inkSoft }}>{duration}</div>)}
-            {field(`${tUI('fPrix', langue)} (${settings.devise === 'USD' ? '$' : settings.devise === 'GBP' ? '£' : '€'})`, <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            {!isEdit && field('Date de fin (optionnel — réserve toute la période)', <input type="date" min={form.date} style={inputStyle} value={form.dateFin || ''} onChange={set('dateFin')} />)}
+            {!isPeriode && field(tUI('fHeureDebut', langue), <input type="time" disabled={form.type !== 'Heure'} style={form.type !== 'Heure' ? disabledStyle : inputStyle} value={form.heureDebut} onChange={set('heureDebut')} />)}
+            {!isPeriode && field(tUI('fHeureFin', langue), <input type="time" disabled={form.type !== 'Heure'} style={form.type !== 'Heure' ? disabledStyle : inputStyle} value={form.heureFin} onChange={set('heureFin')} />)}
+            {!isPeriode && field(tUI('fDuree', langue), <div style={{ ...inputStyle, background: C.snowDim, color: C.inkSoft }}>{duration}</div>)}
+            {field(`${tUI('fPrix', langue)}${isPeriode ? ' total pour la période' : ''} (${settings.devise === 'USD' ? '$' : settings.devise === 'GBP' ? '£' : '€'})`, <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
               <input type="number" style={inputStyle} value={form.prix} onChange={set('prix')} />
               {hourlyHint && <span style={{ fontSize: 11.5, color: C.inkSoft }}>{tUI('suggestedRate', langue)} : {hourlyHint} {settings.devise || '€'}/h ({high ? tUI('highSeason', langue) : tUI('lowSeason', langue)})</span>}
             </div>)}
@@ -959,7 +970,26 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
           <div style={{ display: 'flex', gap: 10 }}>
             <button onClick={onClose} style={{ padding: '9px 18px', borderRadius: 9, border: `1px solid ${C.iceLine}`, background: C.card, color: C.ink, cursor: 'pointer', fontSize: 14, fontWeight: 600 }}>{tUI('btnCancel', langue)}</button>
             <button onClick={() => {
-              if (mode !== 'indisponible') return onSave(form);
+              if (mode === 'reservation') {
+                if (!isPeriode) return onSave(form);
+                // Réservation sur toute une période (ex : stage d'une semaine) : une entrée "Journée"
+                // par jour, toutes reliées par le même groupId (même mécanisme que les réservations
+                // multi-cours existantes) — le prix total saisi est réparti sur les jours de la période.
+                const dates = [];
+                let cur = form.date;
+                while (cur <= form.dateFin) { dates.push(cur); cur = toKey(addDays(new Date(cur + 'T00:00:00'), 1)); }
+                const groupId = Date.now();
+                const totalPrix = Number(form.prix) || 0;
+                const perDay = Math.round((totalPrix / dates.length) * 100) / 100;
+                const list = dates.map((dateKey, idx) => {
+                  const isLast = idx === dates.length - 1;
+                  const prix = isLast ? Math.round((totalPrix - perDay * (dates.length - 1)) * 100) / 100 : perDay;
+                  const clean = { ...form, date: dateKey, type: 'Journée', heureDebut: JOURNEE_HOURS[0], heureFin: JOURNEE_HOURS[1], prix, groupId, id: groupId + idx };
+                  delete clean.dateFin;
+                  return clean;
+                });
+                return onSave(list);
+              }
               const base = { ...form, prenom: 'Indisponible', nom: '', telephone: '', email: '', nationalite: '', discipline: '', niveau: '', nbPersonnes: 0, station: '', pointRdv: '', type: 'Heure', statut: 'Confirmée', paiement: 'Non payé', modePaiement: 'Non renseigné', prix: 0, notes: form.notes || 'Indisponibilité', absence: true };
               delete base.dateFin;
               // Si une date de fin est renseignée (et postérieure à la date de début), on bloque
@@ -977,7 +1007,7 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
               } else {
                 onSave(base);
               }
-            }} style={{ padding: '9px 18px', borderRadius: 9, border: 'none', background: mode === 'indisponible' ? ACCENTS.red : ACCENTS.glacier, color: '#fff', cursor: 'pointer', fontSize: 14, fontWeight: 600 }}>{isEdit ? tUI('btnSave', langue) : (mode === 'indisponible' ? (form.dateFin && form.dateFin > form.date ? 'Bloquer cette période' : 'Bloquer ce créneau') : tUI('btnCreateReservation', langue))}</button>
+            }} style={{ padding: '9px 18px', borderRadius: 9, border: 'none', background: mode === 'indisponible' ? ACCENTS.red : ACCENTS.glacier, color: '#fff', cursor: 'pointer', fontSize: 14, fontWeight: 600 }}>{isEdit ? tUI('btnSave', langue) : (mode === 'indisponible' ? (form.dateFin && form.dateFin > form.date ? 'Bloquer cette période' : 'Bloquer ce créneau') : (isPeriode ? 'Réserver cette période' : tUI('btnCreateReservation', langue)))}</button>
           </div>
         </div>
       </div>
