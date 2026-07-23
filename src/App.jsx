@@ -561,6 +561,7 @@ const toKey = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDat
 const startOfWeek = (d) => { const x = new Date(d); const day = (x.getDay() + 6) % 7; x.setDate(x.getDate() - day); x.setHours(0, 0, 0, 0); return x; };
 const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
 const timeToMinutes = (t) => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
+const overlaps = (aStart, aEnd, bStart, bEnd) => aStart < bEnd && aEnd > bStart;
 const minutesToTime = (m) => `${pad(Math.floor(m / 60))}:${pad(m % 60)}`;
 const minutesLabel = (mins) => { const h = Math.floor(mins / 60); const m = mins % 60; return m === 0 ? `${h}h` : `${h}h${pad(m)}`; };
 const fmtEUR = (n, devise = 'EUR') => new Intl.NumberFormat('fr-FR', { style: 'currency', currency: devise, maximumFractionDigits: 0 }).format(n || 0);
@@ -801,7 +802,7 @@ function BlurGate({ subscribed, C, children }) {
 /* ==================================================================================
    RESERVATION MODAL
    ================================================================================== */
-function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
+function ReservationModal({ initial, onSave, onDelete, onClose, C, settings, reservations }) {
   const langue = settings.langue;
   const [form, setForm] = useState({ type: 'Heure', creneau: 'Matin', ...initial });
   const isEdit = !!initial.id;
@@ -812,6 +813,28 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
   // Réservation sur une période complète (ex : stage d'une semaine) plutôt qu'un horaire précis un seul jour —
   // même logique que le blocage de période pour une indisponibilité, mais pour une vraie réservation client.
   const isPeriode = mode === 'reservation' && !isEdit && !!form.dateFin && form.dateFin > form.date;
+
+  // Empêche de créer une réservation qui chevauche un créneau déjà occupé (autre réservation ou
+  // indisponibilité) le même jour — évite de se retrouver avec deux clients au même horaire.
+  const hasConflict = useCallback((dateKey, hDebut, hFin, excludeId) => {
+    const s = timeToMinutes(hDebut), e = timeToMinutes(hFin);
+    if (!(e > s)) return false;
+    return (reservations || []).some(r => r.id !== excludeId && r.date === dateKey && r.statut !== 'Annulée' && overlaps(s, e, timeToMinutes(r.heureDebut), timeToMinutes(r.heureFin)));
+  }, [reservations]);
+  const conflictDate = useMemo(() => {
+    if (mode !== 'reservation') return null;
+    const s = timeToMinutes(form.heureDebut), e = timeToMinutes(form.heureFin);
+    if (!(e > s)) return null;
+    if (isPeriode) {
+      let cur = form.date;
+      while (cur <= form.dateFin) {
+        if (hasConflict(cur, form.heureDebut, form.heureFin, form.id)) return cur;
+        cur = toKey(addDays(new Date(cur + 'T00:00:00'), 1));
+      }
+      return null;
+    }
+    return hasConflict(form.date, form.heureDebut, form.heureFin, form.id) ? form.date : null;
+  }, [mode, isPeriode, form.date, form.dateFin, form.heureDebut, form.heureFin, form.id, hasConflict]);
 
   const engagementLabel = (type) => type === 'Heure' ? tUI('engHeure', langue) : type === 'Demi-journée' ? tUI('engDemiJournee', langue) : tUI('engJournee', langue);
   const creneauLabel = (cren) => cren === 'Matin' ? tUI('crenMatin', langue) : tUI('crenApresMidi', langue);
@@ -946,6 +969,11 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
               Réservation sur toute la période du {fmtDateShort(form.date)} au {fmtDateShort(form.dateFin)} : le même engagement ({engagementLabel(form.type)}{form.type !== 'Journée' ? ` — ${fmtHeure(form.heureDebut, langue)}–${fmtHeure(form.heureFin, langue)}` : ''}) et le même prix seront appliqués à chacun des {(() => { let n = 0, cur = form.date; while (cur <= form.dateFin) { n++; cur = toKey(addDays(new Date(cur + 'T00:00:00'), 1)); } return n; })()} jours.
             </div>
           )}
+          {conflictDate && (
+            <div style={{ fontSize: 12.5, color: ACCENTS.red, fontWeight: 600, background: ACCENTS.red + '12', padding: '8px 12px', borderRadius: 8 }}>
+              Ce créneau chevauche une réservation ou une indisponibilité déjà existante le {fmtDateShort(conflictDate)}. Modifie l'heure ou la date pour continuer.
+            </div>
+          )}
           <div className="form-grid-2">
             {field(tUI('fPrenom', langue), <input style={inputStyle} value={form.prenom} onChange={set('prenom')} />)}
             {field(tUI('fNom', langue), <input style={inputStyle} value={form.nom} onChange={set('nom')} />)}
@@ -1001,8 +1029,9 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
           <div>{isEdit && <button onClick={() => onDelete(form.id)} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: 'none', color: ACCENTS.red, cursor: 'pointer', fontSize: 14, fontWeight: 600 }}><Trash2 size={15} /> {tUI('btnDelete', langue)}</button>}</div>
           <div style={{ display: 'flex', gap: 10 }}>
             <button onClick={onClose} style={{ padding: '9px 18px', borderRadius: 9, border: `1px solid ${C.iceLine}`, background: C.card, color: C.ink, cursor: 'pointer', fontSize: 14, fontWeight: 600 }}>{tUI('btnCancel', langue)}</button>
-            <button onClick={() => {
+            <button disabled={mode === 'reservation' && !!conflictDate} onClick={() => {
               if (mode === 'reservation') {
+                if (conflictDate) return;
                 if (!isPeriode) return onSave(form);
                 // Réservation sur toute une période (ex : stage d'une semaine) : le même engagement
                 // (Heure à l'horaire choisi, Demi-journée ou Journée) est répété à l'identique chaque
@@ -1036,7 +1065,7 @@ function ReservationModal({ initial, onSave, onDelete, onClose, C, settings }) {
               } else {
                 onSave(base);
               }
-            }} style={{ padding: '9px 18px', borderRadius: 9, border: 'none', background: mode === 'indisponible' ? ACCENTS.red : ACCENTS.glacier, color: '#fff', cursor: 'pointer', fontSize: 14, fontWeight: 600 }}>{isEdit ? tUI('btnSave', langue) : (mode === 'indisponible' ? (form.dateFin && form.dateFin > form.date ? 'Bloquer cette période' : 'Bloquer ce créneau') : (isPeriode ? 'Réserver cette période' : tUI('btnCreateReservation', langue)))}</button>
+            }} style={{ padding: '9px 18px', borderRadius: 9, border: 'none', background: (mode === 'reservation' && conflictDate) ? C.iceLine : (mode === 'indisponible' ? ACCENTS.red : ACCENTS.glacier), color: (mode === 'reservation' && conflictDate) ? C.inkSoft : '#fff', cursor: (mode === 'reservation' && conflictDate) ? 'not-allowed' : 'pointer', fontSize: 14, fontWeight: 600 }}>{isEdit ? tUI('btnSave', langue) : (mode === 'indisponible' ? (form.dateFin && form.dateFin > form.date ? 'Bloquer cette période' : 'Bloquer ce créneau') : (isPeriode ? 'Réserver cette période' : tUI('btnCreateReservation', langue)))}</button>
           </div>
         </div>
       </div>
@@ -2557,7 +2586,7 @@ export default function App() {
         )}
       </main>
 
-      {modal && <ReservationModal initial={modal} onSave={handleSave} onDelete={handleDelete} onClose={() => setModal(null)} C={C} settings={settings} />}
+      {modal && <ReservationModal initial={modal} onSave={handleSave} onDelete={handleDelete} onClose={() => setModal(null)} C={C} settings={settings} reservations={reservations} />}
     </div>
   );
 }
