@@ -667,6 +667,27 @@ const emptyForm = {
   date: toKey(new Date()), type: 'Heure', creneau: 'Matin', heureDebut: '09:00', heureFin: '10:00', prix: '', statut: 'Confirmée', paiement: 'Non payé', modePaiement: 'Non renseigné', notes: ''
 };
 
+// Génère un jeu de réservations fictives variées (statuts, paiements, disciplines, formats,
+// dont un groupe multi-cours) pour tester l'affichage — bouton temporaire "+ Données de test"
+// dans la vue Réservations, à retirer une fois les tests terminés.
+function generateFakeReservations() {
+  const base = Date.now();
+  const commonGroup = base + 900;
+  return [
+    { id: base + 1, prenom: 'Sophie', nom: 'Martin', telephone: '0611223344', email: 'sophie.martin@example.com', nationalite: 'Française', langue: 'Français', age: 34, niveau: 'Débutant', discipline: 'Ski', nbPersonnes: 1, station: 'Chamonix-Mont-Blanc', pointRdv: 'Office de tourisme', date: '2026-07-20', type: 'Heure', creneau: 'Matin', heureDebut: '09:00', heureFin: '10:00', prix: 75, statut: 'Confirmée', paiement: 'Payé', modePaiement: 'Carte bancaire', notes: 'Réservation test' },
+    { id: base + 2, prenom: 'Lucas', nom: 'Bernard', telephone: '0622334455', email: 'lucas.bernard@example.com', nationalite: 'Belge', langue: 'Français', age: 28, niveau: 'Intermédiaire', discipline: 'Snowboard', nbPersonnes: 2, station: 'Megève', pointRdv: 'Pied des pistes', date: '2026-07-21', type: 'Heure', creneau: 'Après-midi', heureDebut: '14:00', heureFin: '15:30', prix: 90, statut: 'Confirmée', paiement: 'Payé', modePaiement: 'Espèces', notes: 'Réservation test' },
+    { id: base + 3, prenom: 'Emma', nom: 'Dubois', telephone: '0633445566', email: 'emma.dubois@example.com', nationalite: 'Française', langue: 'Anglais', age: 41, niveau: 'Avancé', discipline: 'Ski', nbPersonnes: 1, station: "Val d'Isère", pointRdv: 'ESF', date: '2026-07-23', type: 'Demi-journée', creneau: 'Matin', heureDebut: '09:00', heureFin: '12:30', prix: 210, statut: 'En attente', paiement: 'Non payé', modePaiement: 'Non renseigné', notes: 'Réservation test' },
+    { id: base + 4, prenom: 'Léa', nom: 'Rousseau', telephone: '0644556677', email: 'lea.rousseau@example.com', nationalite: 'Suisse', langue: 'Français', age: 19, niveau: 'Débutant', discipline: 'Snowboard', nbPersonnes: 1, station: 'Les Arcs', pointRdv: 'Résidence Le Cristal', date: '2026-07-24', type: 'Heure', creneau: 'Matin', heureDebut: '11:00', heureFin: '12:00', prix: 60, statut: 'Confirmée', paiement: 'Acompte reçu', modePaiement: 'Virement', notes: 'Réservation test' },
+    { id: base + 5, prenom: 'Thomas', nom: 'Petit', telephone: '0655667788', email: 'thomas.petit@example.com', nationalite: 'Française', langue: 'Français', age: 52, niveau: 'Expert', discipline: 'Ski', nbPersonnes: 1, station: 'Courchevel', pointRdv: 'Altiport', date: '2026-07-25', type: 'Journée', creneau: 'Matin', heureDebut: '09:00', heureFin: '17:00', prix: 370, statut: 'Confirmée', paiement: 'Payé', modePaiement: 'Carte bancaire', notes: 'Réservation test' },
+    { id: base + 6, prenom: 'Nathan', nom: 'Girard', telephone: '0666778899', email: 'nathan.girard@example.com', nationalite: 'Française', langue: 'Français', age: 25, niveau: 'Intermédiaire', discipline: 'Ski', nbPersonnes: 1, station: 'Tignes', pointRdv: 'Office de tourisme', date: '2026-07-27', type: 'Demi-journée', creneau: 'Après-midi', heureDebut: '13:30', heureFin: '17:00', prix: 150, statut: 'Annulée', paiement: 'Non payé', modePaiement: 'Non renseigné', notes: 'Réservation test' },
+    { id: base + 7, prenom: 'Manon', nom: 'Lefèvre', telephone: '0677889900', email: 'manon.lefevre@example.com', nationalite: 'Française', langue: 'Espagnol', age: 30, niveau: 'Avancé', discipline: 'Snowboard', nbPersonnes: 1, station: "Alpe d'Huez", pointRdv: 'Départ télécabine', date: '2026-07-28', type: 'Heure', creneau: 'Matin', heureDebut: '08:15', heureFin: '09:45', prix: 100, statut: 'Confirmée', paiement: 'Payé', modePaiement: 'Espèces', notes: 'Réservation test — horaire libre hors créneau standard' },
+    // Groupe multi-cours (même groupId) : Camille réserve 3 cours d'un coup via le lien public.
+    { id: commonGroup + 1, groupId: commonGroup, prenom: 'Camille', nom: 'Fontaine', telephone: '0688990011', email: 'camille.fontaine@example.com', nationalite: 'Française', langue: 'Français', age: 22, niveau: 'Débutant', discipline: 'Ski', nbPersonnes: 1, station: 'La Plagne', pointRdv: '', date: '2026-07-26', type: 'Heure', creneau: 'Matin', heureDebut: '09:00', heureFin: '10:00', prix: 75, statut: 'En attente', paiement: 'Non payé', modePaiement: 'Non renseigné', notes: 'Réservation test — multi-cours' },
+    { id: commonGroup + 2, groupId: commonGroup, prenom: 'Camille', nom: 'Fontaine', telephone: '0688990011', email: 'camille.fontaine@example.com', nationalite: 'Française', langue: 'Français', age: 22, niveau: 'Débutant', discipline: 'Ski', nbPersonnes: 1, station: 'La Plagne', pointRdv: '', date: '2026-07-26', type: 'Heure', creneau: 'Matin', heureDebut: '10:15', heureFin: '11:15', prix: 75, statut: 'En attente', paiement: 'Non payé', modePaiement: 'Non renseigné', notes: 'Réservation test — multi-cours' },
+    { id: commonGroup + 3, groupId: commonGroup, prenom: 'Camille', nom: 'Fontaine', telephone: '0688990011', email: 'camille.fontaine@example.com', nationalite: 'Française', langue: 'Français', age: 22, niveau: 'Débutant', discipline: 'Snowboard', nbPersonnes: 1, station: 'La Plagne', pointRdv: '', date: '2026-07-26', type: 'Heure', creneau: 'Après-midi', heureDebut: '13:00', heureFin: '14:30', prix: 90, statut: 'En attente', paiement: 'Non payé', modePaiement: 'Non renseigné', notes: 'Réservation test — multi-cours' }
+  ];
+}
+
 async function loadReservations() {
   try { const r = await window.storage.get(RES_KEY); return JSON.parse(r.value); }
   catch (e) { return []; }
@@ -1525,7 +1546,7 @@ function CalendarView({ reservations, onSlotClick, onEventClick, onAbsenceUpdate
 /* ==================================================================================
    RESERVATIONS LIST
    ================================================================================== */
-function ReservationsView({ reservations, onNew, onEdit, C, devise, langue }) {
+function ReservationsView({ reservations, onNew, onEdit, onSeedFake, C, devise, langue }) {
   const [filter, setFilter] = useState(''); const [statutFilter, setStatutFilter] = useState('Tous');
   const filtered = reservations.filter(r => (statutFilter === 'Tous' || r.statut === statutFilter)).filter(r => (r.nom + r.prenom + r.station).toLowerCase().includes(filter.toLowerCase())).sort((a, b) => b.date.localeCompare(a.date) || a.heureDebut.localeCompare(b.heureDebut));
   // Compte les cours partageant le même groupId (réservation multi-cours), uniquement pour l'affichage.
@@ -1536,7 +1557,11 @@ function ReservationsView({ reservations, onNew, onEdit, C, devise, langue }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
       <div className="header-row">
         <div><h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 24, fontWeight: 700, color: C.navy }}>{tUI('reservations', langue)}</h1><p style={{ fontSize: 14, color: C.inkSoft, marginTop: 4 }}>{reservations.length} {tUI('totalReservations', langue)}</p></div>
-        <button onClick={onNew} style={{ display: 'flex', alignItems: 'center', gap: 8, background: ACCENTS.glacier, color: '#fff', border: 'none', borderRadius: 9, padding: '10px 18px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}><Plus size={16} /> {tUI('newReservation', langue)}</button>
+        <div style={{ display: 'flex', gap: 10 }}>
+          {/* Bouton temporaire pour générer des réservations de test — à retirer une fois les tests terminés. */}
+          <button onClick={onSeedFake} style={{ display: 'flex', alignItems: 'center', gap: 8, background: C.card, color: C.inkSoft, border: `1px dashed ${C.iceLine}`, borderRadius: 9, padding: '10px 18px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>+ Données de test</button>
+          <button onClick={onNew} style={{ display: 'flex', alignItems: 'center', gap: 8, background: ACCENTS.glacier, color: '#fff', border: 'none', borderRadius: 9, padding: '10px 18px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}><Plus size={16} /> {tUI('newReservation', langue)}</button>
+        </div>
       </div>
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
         <input placeholder={tUI('searchClientStation', langue)} value={filter} onChange={e => setFilter(e.target.value)} style={{ flex: 1, border: `1px solid ${C.iceLine}`, borderRadius: 9, padding: '9px 14px', fontSize: 14, background: C.card, color: C.ink }} />
@@ -2447,7 +2472,7 @@ export default function App() {
         ) : tab === 'calendar' ? (
           <CalendarView reservations={reservations} onSlotClick={openNew} onEventClick={openEdit} onAbsenceUpdate={handleUpdate} C={C} subscribed={subscribed} langue={settings.langue} />
         ) : tab === 'reservations' ? (
-          <ReservationsView reservations={realReservations} onNew={() => openNew()} onEdit={openEdit} C={C} devise={settings.devise} langue={settings.langue} />
+          <ReservationsView reservations={realReservations} onNew={() => openNew()} onEdit={openEdit} onSeedFake={() => handleSave(generateFakeReservations())} C={C} devise={settings.devise} langue={settings.langue} />
         ) : tab === 'clients' ? (
           <ClientsView reservations={realReservations} C={C} devise={settings.devise} subscribed={subscribed} langue={settings.langue} />
         ) : tab === 'paiements' ? (
